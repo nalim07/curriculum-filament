@@ -100,8 +100,8 @@ return new class extends Migration
             $table->date('old_school_entry_date')->nullable();
             $table->date('old_school_leaving_date')->nullable();
             $table->string('old_school_name', 100)->nullable();
+            $table->string('old_school_achivements', 100)->nullable();
             $table->string('old_school_achivements_year', 100)->nullable();
-            $table->string('tahun_old_school_achivements_year', 100)->nullable();
             $table->string('certificate_number_old_school', 100)->nullable();
             $table->string('old_school_address', 100)->nullable();
             $table->string('no_sttb')->nullable();

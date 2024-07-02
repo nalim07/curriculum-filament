@@ -228,6 +228,6 @@ class GenerateMidSemesterRaport
             compact('title', 'sekolah', 'data_anggota_ekstrakulikuler', 'data_prestasi_siswa', 'data_kehadiran_siswa', 'data_catatan_wali_kelas', 'data_nilai', 'data_nilai_akhir_total', 'semester', 'term', 'classSchool', 'data_anggota_kelas', 'km_tgl_raport')
         )->setPaper('A4', 'portrait'); // Use A4 paper size
 
-        return $pdf->stream('pancasila-mid-semester-' . $semester . '_' . $classSchool->name . '.pdf');
+        return $pdf->stream('mid-semester-' . $semester . '_report_' . $classSchool->name . '.pdf');
     }
 }

@@ -25,6 +25,6 @@ class GeneratePancasilaRaport
             compact('title', 'student', 'pancasilaRaportValueDescription', 'PancasilaRaportProject', 'ttd')
         )->setPaper('A4', 'portrait'); // Use A4 paper size
 
-        return $pdf->stream('pancasila-raport_' . $student->student_name . '.pdf');
+        return $pdf->stream('pancasila-report_' . $student->student_name . '.pdf');
     }
 }

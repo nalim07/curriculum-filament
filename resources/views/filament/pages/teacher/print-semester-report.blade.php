@@ -3,14 +3,18 @@
         {{ $this->form }}
 
         <div class="text-right">
+            @if ($saveBtn)
+                <x-filament::button wire:click="saveData" class="mt-2" color="info" wire:dirty.remove
+                    wire:target="data">
+                    Print Data Student
+                </x-filament::button>
+                <x-filament::button wire:click="save" class="mt-2" color="secondary" wire:dirty.remove wire:target="data">
+                    Print Report Student
+                </x-filament::button>
+            @endif
             <x-filament::button type="submit" class="mt-2 ">
                 Find
             </x-filament::button>
-            @if ($saveBtn)
-                <x-filament::button wire:click="save" class="mt-2" color="info" wire:dirty.remove wire:target="data">
-                    Print
-                </x-filament::button>
-            @endif
         </div>
     </form>
 
@@ -37,10 +41,12 @@
             <table class="min-w-full w-full table-fixed divide-y divide-gray-200 dark:divide-gray-700">
                 <thead class="bg-gray-50 dark:bg-gray-800">
                     <tr>
-                        <th scope="col" class="w-auto px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        <th scope="col"
+                            class="w-auto px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                             NIS
                         </th>
-                        <th scope="col" class="w-auto px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        <th scope="col"
+                            class="w-auto px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                             Name
                         </th>
                     </tr>
@@ -58,7 +64,7 @@
                     @endforeach
                 </tbody>
             </table>
-            
+
         </x-filament-tables::container>
     @endif
 

@@ -17,6 +17,20 @@ use App\Models\StudentAttendance;
 
 class GenerateSemesterRaport
 {
+    public static function makeData($id, $formattedDate)
+    {
+        $classSchool = ClassSchool::find($id);
+        $sekolah = $classSchool->level->school;
+        $title = 'Completeness of Report';
+        $data_anggota_kelas = MemberClassSchool::where('class_school_id', $id)->where('academic_year_id', Helper::getActiveAcademicYearId())->get();
+        $view = 'print.print-data-raport';
+        $km_tgl_raport = $formattedDate;
+
+        $pdf = Pdf::loadView($view, compact('title', 'sekolah', 'classSchool', 'data_anggota_kelas', 'km_tgl_raport'))->setPaper('A4', 'portrait'); // Use A4 paper size
+
+        return $pdf->stream('report_data_' . $classSchool->name . '.pdf');
+    }
+
     public static function make($id, $semester, $formattedDate)
     {
         $classSchool = ClassSchool::find($id);
@@ -25,7 +39,6 @@ class GenerateSemesterRaport
         $data_anggota_kelas = MemberClassSchool::where('class_school_id', $id)->where('academic_year_id', Helper::getActiveAcademicYearId())->get();
 
         $sekolah = $classSchool->level->school;
-
 
         $learning_data = LearningData::where('class_school_id', $id)->get('id');
 
@@ -70,7 +83,7 @@ class GenerateSemesterRaport
                             'nama_mapel_indonesian' => '',
                             'kkm' => '',
                             'deskripsi_nilai' => '',
-                            'semester_id' => $semester_id
+                            'semester_id' => $semester_id,
                         ];
                     }
 
@@ -90,13 +103,13 @@ class GenerateSemesterRaport
                     $data['nilai'] /= 2;
 
                     $kkm = [
-                        'predikat_a' => 80.00,
-                        'predikat_b' => 70.00,
-                        'predikat_c' => 60.00,
-                        'predikat_d' => 0.00,
+                        'predikat_a' => 80.0,
+                        'predikat_b' => 70.0,
+                        'predikat_c' => 60.0,
+                        'predikat_d' => 0.0,
                     ];
 
-                    if ($data['nilai'] >= $kkm['predikat_a'] && $data['nilai'] <= 100.00) {
+                    if ($data['nilai'] >= $kkm['predikat_a'] && $data['nilai'] <= 100.0) {
                         $data['predikat'] = 'A';
                     } elseif ($data['nilai'] >= $kkm['predikat_b'] && $data['nilai'] < $kkm['predikat_a']) {
                         $data['predikat'] = 'B';
@@ -146,7 +159,7 @@ class GenerateSemesterRaport
                                 'nilai_akhir_term_1_semester_2' => $data_semester_2['nilai_akhir_term_1_semester_2'] ?? null,
                                 'nilai_akhir_term_2_semester_2' => $data_semester_2['nilai_akhir_term_2_semester_2'] ?? null,
                                 'nilai_akhir_semester_1' => $nilai_semester_1,
-                                'nilai_akhir_semester_2' => $nilai_semester_2
+                                'nilai_akhir_semester_2' => $nilai_semester_2,
                             ];
                         }
                     }
@@ -176,7 +189,7 @@ class GenerateSemesterRaport
                             'nilai_akhir_term_1_semester_2' => null,
                             'nilai_akhir_term_2_semester_2' => null,
                             'nilai_akhir_semester_1' => $nilai_semester_1,
-                            'nilai_akhir_semester_2' => null
+                            'nilai_akhir_semester_2' => null,
                         ];
                     }
                 }
@@ -216,11 +229,8 @@ class GenerateSemesterRaport
 
         $view = 'print.print-semester-raport';
 
-        $pdf = Pdf::loadView(
-            $view,
-            compact('title', 'sekolah', 'data_anggota_ekstrakulikuler', 'data_prestasi_siswa', 'data_kehadiran_siswa', 'data_catatan_wali_kelas', 'data_nilai', 'data_nilai_akhir_total', 'semester', 'classSchool', 'data_anggota_kelas', 'km_tgl_raport')
-        )->setPaper('A4', 'portrait'); // Use A4 paper size
+        $pdf = Pdf::loadView($view, compact('title', 'sekolah', 'data_anggota_ekstrakulikuler', 'data_prestasi_siswa', 'data_kehadiran_siswa', 'data_catatan_wali_kelas', 'data_nilai', 'data_nilai_akhir_total', 'semester', 'classSchool', 'data_anggota_kelas', 'km_tgl_raport'))->setPaper('A4', 'portrait'); // Use A4 paper size
 
-        return $pdf->stream('pancasila-semester_' . $classSchool->name . '.pdf');
+        return $pdf->stream('semester-' . $semester . '_report_' . $classSchool->name . '.pdf');
     }
 }

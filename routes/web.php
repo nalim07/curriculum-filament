@@ -26,5 +26,6 @@ Route::redirect('/login', 'admin/login')->name('login');
 
 
 Route::get('/preview-pancasila-raport', [P5BKPancasilaRaportController::class, 'previewPancasilaRaport'])->name('preview-pancasila-raport');
+Route::get('/preview-data-raport', [KMSemesterRaportController::class, 'previewDataRaport'])->name('preview-data-raport');
 Route::get('/preview-semester-raport', [KMSemesterRaportController::class, 'previewSemesterRaport'])->name('preview-semester-raport');
 Route::get('/preview-mid-semester-raport', [KMMidSemesterRaportController::class, 'previewMidSemesterRaport'])->name('preview-mid-semester-raport');

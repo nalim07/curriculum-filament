@@ -96,6 +96,16 @@ class PrintSemesterReport extends Page
         ]);
     }
 
+    public function saveData()
+    {
+        $data = $this->form->getState();
+
+        return redirect()->route('preview-data-raport', [
+            'livewire' => json_encode($this),
+            'data' => json_encode($data)
+        ]);
+    }
+
     public static function getNavigationGroup(): ?string
     {
         return __("menu.nav_group.report_km_homeroom");

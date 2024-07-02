@@ -191,7 +191,15 @@ class StudentImporter extends Importer
                 ->rules(['nullable']),
             ImportColumn::make('note_health')
                 ->rules(['nullable']),
-            ImportColumn::make('tahun_old_school_achivements_year')
+            ImportColumn::make('old_school_entry_date')
+                ->rules(['nullable']),
+            ImportColumn::make('old_school_leaving_date')
+                ->rules(['nullable']),
+            ImportColumn::make('old_school_name')
+                ->rules(['nullable']),
+            ImportColumn::make('old_school_achivements')
+                ->rules(['nullable']),
+            ImportColumn::make('old_school_achivements_year')
                 ->rules(['nullable']),
             ImportColumn::make('certificate_number_old_school')
                 ->rules(['nullable']),
@@ -324,7 +332,10 @@ class StudentImporter extends Importer
             'weight' => $this->data['weight'],
             'special_treatment' => $this->data['special_treatment'],
             'note_health' => $this->data['note_health'],
-            'tahun_old_school_achivements_year' => $this->data['tahun_old_school_achivements_year'],
+
+            'old_school_name' => $this->data['old_school_name'],
+            'old_school_achivements' => $this->data['old_school_achivements'],
+            'old_school_achivements_year' => $this->data['old_school_achivements_year'],
             'certificate_number_old_school' => $this->data['certificate_number_old_school'],
             'old_school_address' => $this->data['old_school_address'],
             'no_sttb' => $this->data['no_sttb'],

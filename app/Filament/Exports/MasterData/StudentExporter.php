@@ -100,7 +100,12 @@ class StudentExporter extends Exporter
             ExportColumn::make('weight'),
             ExportColumn::make('special_treatment'),
             ExportColumn::make('note_health'),
-            ExportColumn::make('tahun_old_school_achivements_year'),
+
+            ExportColumn::make('old_school_entry_date'),
+            ExportColumn::make('old_school_leaving_date'),
+            ExportColumn::make('old_school_name'),
+            ExportColumn::make('old_school_achivements'),
+            ExportColumn::make('old_school_achivements_year'),
             ExportColumn::make('certificate_number_old_school'),
             ExportColumn::make('old_school_address'),
             ExportColumn::make('no_sttb'),

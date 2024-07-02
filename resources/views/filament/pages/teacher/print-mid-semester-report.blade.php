@@ -3,14 +3,14 @@
         {{ $this->form }}
 
         <div class="text-right">
+            @if ($saveBtn)
+                <x-filament::button wire:click="save" class="mt-2" color="info" wire:dirty.remove wire:target="data">
+                    Print Report Student
+                </x-filament::button>
+            @endif
             <x-filament::button type="submit" class="mt-2 ">
                 Find
             </x-filament::button>
-            @if ($saveBtn)
-                <x-filament::button wire:click="save" class="mt-2" color="info" wire:dirty.remove wire:target="data">
-                    Print
-                </x-filament::button>
-            @endif
         </div>
     </form>
 

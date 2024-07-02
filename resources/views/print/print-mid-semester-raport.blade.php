@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <title>{{ $title }} | {{ $classSchool->name }}</title>
-    <link rel="icon" type="image/png" href="./assets/dist/img/logo.png">
+    <link rel="icon" type="image/png" href="./images/logo-small.png">
 </head>
 
 <style>
@@ -262,7 +262,7 @@
         position: absolute;
         top: 0px;
         left: 0px;
-        background-image: url("{{ public_path() . '/assets/dist/img/logo.png' }}");
+        background-image: url("{{ public_path() . '/images/logo-small.png' }}");
         background-size: 40%;
         background-position: center center;
         background-repeat: no-repeat;
@@ -307,7 +307,7 @@
                             {{ str_replace('-', ' / ', $classSchool->academicYear->year) }}
                         </h1>
                         <p class="center-align pad-126 line-height-123" style="padding: 0 60pt">
-                            Address : {{ $sekolah->address }} Phone: {{ $sekolah->phone }}
+                            Address : {{ $sekolah->address }} Phone: {{ $sekolah->number_phone }}
                         </p>
                     </td>
 
