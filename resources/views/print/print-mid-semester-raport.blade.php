@@ -1012,7 +1012,7 @@
                         @if (Storage::disk('public')->exists(
                                 'ttd/employee/signature/' . $anggota_kelas->classSchool->teacher->employee->employee_code . '.jpg'))
                             <div>
-                                <img src="{{ asset('storage/employee/signature/' . $anggota_kelas->classSchool->teacher->employee->employee_code . '.jpg') }}"
+                                <img src="{{ public_path() . '/storage/employee/signature/' . $anggota_kelas->classSchool->teacher->employee->employee_code . '.jpg' }}"
                                     alt="{{ $anggota_kelas->classSchool->teacher->employee->employee_code }}"
                                     width="120px" class="text-align: center; ">
                             </div>
@@ -1035,7 +1035,7 @@
                         <p class="s6" style="padding-top: 6pt; text-align: center;">Principal's Signature</p>
                         @if (Storage::disk('public')->exists('schools/signature_principal/' . $sekolah->nip_principal . '.jpg'))
                             <div>
-                                <img src="{{ asset('storage/schools/signature_principal/' . $sekolah->nip_principal . '.jpg') }}"
+                                <img src="{{ public_path() . '/storage/schools/signature_principal/' . $sekolah->nip_principal . '.jpg' }}"
                                     alt="{{ $sekolah->nip_principal }}" width="120px" class="text-align: center; ">
                             </div>
                         @else

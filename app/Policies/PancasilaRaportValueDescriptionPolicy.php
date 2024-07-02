@@ -15,7 +15,7 @@ class PancasilaRaportValueDescriptionPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_teacher::pancasila::raport::value::description');
+        return $user->can('view_any_master::data::pancasila::raport::value::description');
     }
 
     /**
@@ -23,7 +23,7 @@ class PancasilaRaportValueDescriptionPolicy
      */
     public function view(User $user, PancasilaRaportValueDescription $pancasilaRaportValueDescription): bool
     {
-        return $user->can('view_teacher::pancasila::raport::value::description');
+        return $user->can('view_master::data::pancasila::raport::value::description');
     }
 
     /**
@@ -31,7 +31,7 @@ class PancasilaRaportValueDescriptionPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_teacher::pancasila::raport::value::description');
+        return $user->can('create_master::data::pancasila::raport::value::description');
     }
 
     /**
@@ -39,7 +39,7 @@ class PancasilaRaportValueDescriptionPolicy
      */
     public function update(User $user, PancasilaRaportValueDescription $pancasilaRaportValueDescription): bool
     {
-        return $user->can('update_teacher::pancasila::raport::value::description');
+        return $user->can('update_master::data::pancasila::raport::value::description');
     }
 
     /**
@@ -47,7 +47,7 @@ class PancasilaRaportValueDescriptionPolicy
      */
     public function delete(User $user, PancasilaRaportValueDescription $pancasilaRaportValueDescription): bool
     {
-        return $user->can('delete_teacher::pancasila::raport::value::description');
+        return $user->can('delete_master::data::pancasila::raport::value::description');
     }
 
     /**
@@ -55,7 +55,7 @@ class PancasilaRaportValueDescriptionPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_teacher::pancasila::raport::value::description');
+        return $user->can('delete_any_master::data::pancasila::raport::value::description');
     }
 
     /**
@@ -63,7 +63,7 @@ class PancasilaRaportValueDescriptionPolicy
      */
     public function forceDelete(User $user, PancasilaRaportValueDescription $pancasilaRaportValueDescription): bool
     {
-        return $user->can('force_delete_teacher::pancasila::raport::value::description');
+        return $user->can('force_delete_master::data::pancasila::raport::value::description');
     }
 
     /**
@@ -71,7 +71,7 @@ class PancasilaRaportValueDescriptionPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_teacher::pancasila::raport::value::description');
+        return $user->can('force_delete_any_master::data::pancasila::raport::value::description');
     }
 
     /**
@@ -79,7 +79,7 @@ class PancasilaRaportValueDescriptionPolicy
      */
     public function restore(User $user, PancasilaRaportValueDescription $pancasilaRaportValueDescription): bool
     {
-        return $user->can('restore_teacher::pancasila::raport::value::description');
+        return $user->can('restore_master::data::pancasila::raport::value::description');
     }
 
     /**
@@ -87,7 +87,7 @@ class PancasilaRaportValueDescriptionPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_teacher::pancasila::raport::value::description');
+        return $user->can('restore_any_master::data::pancasila::raport::value::description');
     }
 
     /**
@@ -95,7 +95,7 @@ class PancasilaRaportValueDescriptionPolicy
      */
     public function replicate(User $user, PancasilaRaportValueDescription $pancasilaRaportValueDescription): bool
     {
-        return $user->can('replicate_teacher::pancasila::raport::value::description');
+        return $user->can('replicate_master::data::pancasila::raport::value::description');
     }
 
     /**
@@ -103,6 +103,6 @@ class PancasilaRaportValueDescriptionPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_teacher::pancasila::raport::value::description');
+        return $user->can('reorder_master::data::pancasila::raport::value::description');
     }
 }

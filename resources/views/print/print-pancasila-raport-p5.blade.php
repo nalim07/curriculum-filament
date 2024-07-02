@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>{{ $title }} | {{ $student->fullname }} ({{ $student->nis }})</title>
@@ -22,7 +23,9 @@
             width: 100%;
         }
 
-        h1, .h2, h3 {
+        h1,
+        .h2,
+        h3 {
             color: black;
             font-family: Arial, sans-serif;
             font-style: normal;
@@ -132,27 +135,32 @@
             border-top: 1px solid #ccc;
         }
 
-        .pentunjuk-penilaian th, .pentunjuk-penilaian td {
+        .pentunjuk-penilaian th,
+        .pentunjuk-penilaian td {
             text-align: left;
             width: 70%;
         }
 
-        table.cell-border, table.cell-border th, table.cell-border td {
+        table.cell-border,
+        table.cell-border th,
+        table.cell-border td {
             border: 1px solid black;
             border-collapse: collapse;
             padding: 3px;
         }
     </style>
 </head>
+
 <body>
     <div class="raport watermarked">
-        @php 
+        @php
             $school = App\Models\School::where('id', $student->classSchool->level->school_id)->first();
         @endphp
         <table style="width: 100%; border-collapse: collapse;">
             <tr>
                 <td>
-                    <img src="{{ public_path() . '/images/logo.png' }}" alt="" width="145" height="60" style="margin-left: -5px">
+                    <img src="{{ public_path() . '/images/logo.png' }}" alt="" width="145" height="60"
+                        style="margin-left: -5px">
                 </td>
                 <td>
                     <h1 class="text-align-center header">
@@ -169,8 +177,8 @@
                     </p>
                 </td>
                 <td>
-                    <img src="{{ public_path() . '/images/tut-wuri-handayani.png' }}" alt=""
-                        width="80px" height="80px">
+                    <img src="{{ public_path() . '/images/tut-wuri-handayani.png' }}" alt="" width="80px"
+                        height="80px">
                 </td>
             </tr>
         </table>
@@ -217,12 +225,13 @@
                                     {{ $subTema->title }}
                                 @endforeach
                             @endif
-                        </h3>   
+                        </h3>
                         <p class="deskripsi-project" style="margin-top: 5px">
                             Project ini diharapkan dapat membangun dimensi pelajar pancasila yaitu:
                             @if ($tema->children->count())
                                 @foreach ($tema->children as $subTema)
-                                    <ol style="margin-left: 21px; padding-left: 10px; font-size: 10px; line-height: 1.5;">
+                                    <ol
+                                        style="margin-left: 21px; padding-left: 10px; font-size: 10px; line-height: 1.5;">
                                         @foreach ($subTema->children as $dimension)
                                             <li>{{ $dimension->title }}</li>
                                         @endforeach
@@ -237,16 +246,36 @@
             @if ($loop->first)
                 <table class="pentunjuk-penilaian" style="padding: 0; margin: 15px 0px">
                     <tr>
-                        <th><h3>BB. Belum Berkembang</h3></th>
-                        <th><h3>MB. Mulai Berkembang</h3></th>
-                        <th><h3>BSH. Berkembang Sesuai Harapan</h3></th>
-                        <th><h3>SB. Sangat Berkembang</h3></th>
+                        <th>
+                            <h3>BB. Belum Berkembang</h3>
+                        </th>
+                        <th>
+                            <h3>MB. Mulai Berkembang</h3>
+                        </th>
+                        <th>
+                            <h3>BSH. Berkembang Sesuai Harapan</h3>
+                        </th>
+                        <th>
+                            <h3>SB. Sangat Berkembang</h3>
+                        </th>
                     </tr>
                     <tr>
-                        <td><p style="line-height: 1.2" class="deskripsi-project">Siswa masih membutuhkan bimbingan dalam mengembangkan kemampuan</p></td>
-                        <td><p style="line-height: 1.2" class="deskripsi-project">Siswa mulai mengembangkan kemampuan namun masih belum ajek</p></td>
-                        <td><p style="line-height: 1.2" class="deskripsi-project">Siswa telah mengembangkan kemampuan hingga berada dalam tahap ajek</p></td>
-                        <td><p style="line-height: 1.2" class="deskripsi-project">Siswa mengembangkan kemampuannya melampaui harapan</p></td>
+                        <td>
+                            <p style="line-height: 1.2" class="deskripsi-project">Siswa masih membutuhkan bimbingan
+                                dalam mengembangkan kemampuan</p>
+                        </td>
+                        <td>
+                            <p style="line-height: 1.2" class="deskripsi-project">Siswa mulai mengembangkan kemampuan
+                                namun masih belum ajek</p>
+                        </td>
+                        <td>
+                            <p style="line-height: 1.2" class="deskripsi-project">Siswa telah mengembangkan kemampuan
+                                hingga berada dalam tahap ajek</p>
+                        </td>
+                        <td>
+                            <p style="line-height: 1.2" class="deskripsi-project">Siswa mengembangkan kemampuannya
+                                melampaui harapan</p>
+                        </td>
                     </tr>
                 </table>
             @endif
@@ -255,10 +284,18 @@
             <table class="w-100" style="border-top: none">
                 <tr>
                     <td style="width: 60%; border: none; text-align:center;"></td>
-                    <td style="width: 10%; border: none; text-align:center;"><h4>BB</h4></td>
-                    <td style="width: 10%; border: none; text-align:center;"><h4>MB</h4></td>
-                    <td style="width: 10%; border: none; text-align:center;"><h4>BSH</h4></td>
-                    <td style="width: 10%; border: none; text-align:center;"><h4>SB</h4></td>
+                    <td style="width: 10%; border: none; text-align:center;">
+                        <h4>BB</h4>
+                    </td>
+                    <td style="width: 10%; border: none; text-align:center;">
+                        <h4>MB</h4>
+                    </td>
+                    <td style="width: 10%; border: none; text-align:center;">
+                        <h4>BSH</h4>
+                    </td>
+                    <td style="width: 10%; border: none; text-align:center;">
+                        <h4>SB</h4>
+                    </td>
                 </tr>
             </table>
             <table class="w-100 cell-border mb-15" style="border-top: none">
@@ -269,7 +306,9 @@
                 @foreach ($items as $subProject)
                     @if ($subProject->hasParentId($parentIdToCheck))
                         <tr>
-                            <td colspan="5" style="background-color: #f0f0f0"><h4>{{ $subProject->name }}</h4></td>
+                            <td colspan="5" style="background-color: #f0f0f0">
+                                <h4>{{ $subProject->name }}</h4>
+                            </td>
                         </tr>
                         @if ($subProject->children->count())
                             @foreach ($subProject->children as $child)
@@ -292,7 +331,8 @@
                                 <tr>
                                     <td colspan="5">
                                         <h4>Catatan Proses</h4>
-                                        <p>{{ $student->pancasilaRaport()->where('pancasila_raport_project_id', $child->id)->first()->notes ?? '' }}</p>
+                                        <p>{{ $student->pancasilaRaport()->where('pancasila_raport_project_id', $child->id)->first()->notes ?? '' }}
+                                        </p>
                                     </td>
                                 </tr>
                             @endforeach
@@ -304,32 +344,40 @@
 
 
         <!-- Signature Table -->
-        {{-- <table class="signature" style="width: 100%;">
+        <table class="signature" style="width: 100%;">
             <!-- Top Section -->
             <tr>
                 <!-- Parent's Section -->
                 <td style="width: 50%; text-align: center;">
-                    <p class="s6" style="padding-top: 10pt; text-align: center;">Parent's / Guardian's Signature</p>
-                    <p class="s7" style="padding-top: 48pt; text-align: center; border-bottom: 1px solid black; display: inline-block; max-width: 200px; width: 120px; margin: 0 auto;"></p>
+                    <p class="s6" style="padding-top: 10pt; text-align: center;">Parent's / Guardian's
+                        Signature
+                    </p>
+                    <p class="s7"
+                        style="padding-top: 48pt; text-align: center; border-bottom: 1px solid black; display: inline-block; max-width: 200px; width: 120px; margin: 0 auto; ">
+                    </p>
                 </td>
                 <!-- Teacher's Section -->
                 <td style="width: 50%; text-align: center;">
                     <p class="s6" style="text-align: center;">
-                        @php
-                            $timestamp = strtotime($student->classSchool->tapel->km_tgl_raport->tanggal_pembagian);
-                            $tanggal_lahir = date('j F Y', $timestamp);
-                        @endphp
-                        {{ $student->classSchool->tapel->km_tgl_raport->tempat_penerbitan }},
-                        {{ \Carbon\Carbon::parse($student->classSchool->tapel->km_tgl_raport->tanggal_penerbitan)->format('d F Y') }}<br>Homeroom Teacher
+
+                        Serang,
+                        {{ $km_tgl_raport }}
+                        <br>Homeroom Teacher
                     </p>
-                    @if (Storage::disk('public')->exists('ttd/' . $student->classSchool->teacher->employee->kode_karyawan . '.jpg'))
+                    @if (Storage::disk('public')->exists(
+                            'ttd/employee/signature/' . $anggota_kelas->classSchool->teacher->employee->employee_code . '.jpg'))
                         <div>
-                            <img src="{{ asset('storage/ttd/' . $student->classSchool->teacher->employee->kode_karyawan . '.jpg') }}" alt="{{ $student->classSchool->teacher->employee->kode_karyawan }}" width="120px" class="text-align: center;">
+                            <img src="{{ public_path() . '/storage/employee/signature/' . $anggota_kelas->classSchool->teacher->employee->employee_code . '.jpg' }}"
+                                alt="{{ $anggota_kelas->classSchool->teacher->employee->employee_code }}"
+                                width="120px" class="text-align: center; ">
                         </div>
+                    @else
+                        <p style="padding-top: 38pt;"></p>
                     @endif
-                    <p class="s7" style="text-align: center; border-bottom: 1px solid black; display: inline-block; width: auto;">
-                        @if ($student->classSchool->guru)
-                            {{ $student->classSchool->teacher->employee->fullname }} {{ $student->classSchool->guru->gelar }}
+                    <p class="s7"
+                        style="text-align: center; border-bottom: 1px solid black; display: inline-block; width: auto;">
+                        @if ($anggota_kelas->classSchool->teacher)
+                            {{ $anggota_kelas->classSchool->teacher->employee->fullname }}
                         @else
                             Guru not available
                         @endif
@@ -340,16 +388,21 @@
             <tr>
                 <td colspan="2" style="text-align: center; margin-top: 15px;">
                     <p class="s6" style="padding-top: 6pt; text-align: center;">Principal's Signature</p>
-                    @if (Storage::disk('public')->exists('ttd_kepala_sekolah/' . $sekolah->nip_kepala_sekolah . '.jpg'))
+                    @if (Storage::disk('public')->exists('schools/signature_principal/' . $sekolah->nip_principal . '.jpg'))
                         <div>
-                            <img src="{{ asset('storage/ttd_kepala_sekolah/' . $sekolah->nip_kepala_sekolah . '.jpg') }}" alt="{{ $sekolah->nip_kepala_sekolah }}" width="120px" class="text-align: center;">
+                            <img src="{{ public_path() . '/storage/schools/signature_principal/' . $sekolah->nip_principal . '.jpg' }}"
+                                alt="{{ $sekolah->nip_principal }}" width="120px" class="text-align: center; ">
                         </div>
+                    @else
+                        <p style="padding-top: 48pt;"></p>
                     @endif
-                    <p class="s7" style="text-align: center; border-bottom: 1px solid black; display: inline-block; width: auto;">
-                        {{ $sekolah->kepala_sekolah }}</p>
+                    <p class="s7"
+                        style="text-align: center; border-bottom: 1px solid black; display: inline-block; width: auto;">
+                        {{ $sekolah->principal }}</p>
                 </td>
             </tr>
-        </table> --}}
+        </table>
     </div>
 </body>
+
 </html>

@@ -466,7 +466,7 @@
                             Name
                         </td>
                         <td class="value">
-                            : {{ $anggota_kelas->student->old_school_name }}
+                            : {{ strtoupper($anggota_kelas->student->old_school_name) }}
                         </td>
                     </tr>
                     <tr>
@@ -477,7 +477,7 @@
                             Address
                         </td>
                         <td class="value">
-                            : {{ $anggota_kelas->student->old_school_address }}
+                            : {{ strtoupper($anggota_kelas->student->old_school_address) }}
                         </td>
                     </tr>
                     <tr>
@@ -498,7 +498,7 @@
                             Name
                         </td>
                         <td class="value">
-                            : {{ $anggota_kelas->student->old_school_achivements }}
+                            : {{ strtoupper($anggota_kelas->student->old_school_achivements) }}
                         </td>
                     </tr>
                     <tr>
@@ -509,7 +509,7 @@
                             Year
                         </td>
                         <td class="value">
-                            : {{ $anggota_kelas->student->old_school_achivements_year }}
+                            : {{ strtoupper($anggota_kelas->student->old_school_achivements_year) }}
                         </td>
                     </tr>
                     <tr>
@@ -520,7 +520,7 @@
                             Certificate Number
                         </td>
                         <td class="value">
-                            : {{ $anggota_kelas->student->certificate_number_old_school }}
+                            : {{ strtoupper($anggota_kelas->student->certificate_number_old_school) }}
                         </td>
                     </tr>
                     <tr>
@@ -541,7 +541,7 @@
                             Father
                         </td>
                         <td class="value">
-                            : {{ $anggota_kelas->student->father_name }}
+                            : {{ strtoupper($anggota_kelas->student->father_name) }}
                         </td>
                     </tr>
                     <tr>
@@ -552,7 +552,7 @@
                             Phone
                         </td>
                         <td class="value">
-                            : {{ $anggota_kelas->student->father_phone_number }}
+                            : {{ strtoupper($anggota_kelas->student->father_phone_number) }}
                         </td>
                     </tr>
                     <tr>
@@ -563,7 +563,7 @@
                             Occupation
                         </td>
                         <td class="value">
-                            : {{ $anggota_kelas->student->father_job }}
+                            : {{ strtoupper($anggota_kelas->student->father_job) }}
                         </td>
                     </tr>
                     <tr>
@@ -574,7 +574,7 @@
                             Mother
                         </td>
                         <td class="value">
-                            : {{ $anggota_kelas->student->mother_name }}
+                            : {{ strtoupper($anggota_kelas->student->mother_name) }}
                         </td>
                     </tr>
                     <tr>
@@ -585,7 +585,7 @@
                             Phone
                         </td>
                         <td class="value">
-                            : {{ $anggota_kelas->student->mother_phone_number }}
+                            : {{ strtoupper($anggota_kelas->student->mother_phone_number) }}
                         </td>
                     </tr>
                     <tr>
@@ -596,7 +596,7 @@
                             Occupation
                         </td>
                         <td class="value">
-                            : {{ $anggota_kelas->student->mother_job }}
+                            : {{ strtoupper($anggota_kelas->student->mother_job) }}
                         </td>
                     </tr>
                     <tr>
@@ -607,7 +607,7 @@
                             Address
                         </td>
                         <td class="value">
-                            : {{ $anggota_kelas->student->father_address }}
+                            : {{ strtoupper($anggota_kelas->student->father_address) }}
                         </td>
                     </tr>
                     <tr>
@@ -628,7 +628,7 @@
                             Name
                         </td>
                         <td class="value">
-                            : {{ $anggota_kelas->student->guardian_name }}
+                            : {{ strtoupper($anggota_kelas->student->guardian_name) }}
                         </td>
                     </tr>
                     <tr>
@@ -639,7 +639,7 @@
                             Address
                         </td>
                         <td class="value">
-                            : {{ $anggota_kelas->student->guardian_address }}
+                            : {{ strtoupper($anggota_kelas->student->guardian_address) }}
                         </td>
                     </tr>
                     <tr>
@@ -650,7 +650,7 @@
                             Phone
                         </td>
                         <td class="value">
-                            : {{ $anggota_kelas->student->guardian_phone_number }}
+                            : {{ strtoupper($anggota_kelas->student->guardian_phone_number) }}
                         </td>
                     </tr>
                     <tr>
@@ -661,7 +661,7 @@
                             Occupation
                         </td>
                         <td class="value">
-                            : {{ $anggota_kelas->student->guardian_job }}
+                            : {{ strtoupper($anggota_kelas->student->guardian_job) }}
                         </td>
                     </tr>
                 </table>
@@ -674,7 +674,7 @@
                             style="text-align: left; vertical-align: middle; display: inline-block; border: 1px solid black; padding: 2pt">
                             @if (Storage::disk('public')->exists('students/photos/' . $anggota_kelas->student->nis . '.jpg'))
                                 <img class="mb-2"
-                                    src="{{ asset('storage/students/photos/' . $anggota_kelas->student->nis . '.jpg') }}"
+                                    src="{{ public_path() . '/storage/students/photos/' . $anggota_kelas->student->nis . '.jpg' }}"
                                     alt="{{ $anggota_kelas->student->photo }}" alt="pas_photo" width="105px">
                             @else
                                 <img src="{{ public_path() . '/images/3x4.png' }}" alt="" id="pas_photo_preview"
@@ -691,7 +691,7 @@
                             </p>
                             @if (Storage::disk('public')->exists('schools/signature_principal/' . $sekolah->nip_principal . '.jpg'))
                                 <div>
-                                    <img src="{{ asset('storage/schools/signature_principal/' . $sekolah->nip_principal . '.jpg') }}"
+                                    <img src="{{ public_path() . '/storage/schools/signature_principal/' . $sekolah->nip_principal . '.jpg' }}"
                                         alt="{{ $sekolah->nip_principal }}" width="120px"
                                         class="text-align: center; ">
                                 </div>
