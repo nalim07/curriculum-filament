@@ -6,14 +6,15 @@ use Filament\Forms;
 use App\Models\User;
 use Filament\Tables;
 use App\Helpers\Helper;
+use App\Models\Student;
 use Filament\Forms\Get;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use App\Models\ClassSchool;
+use Illuminate\Validation\Rule;
 use Filament\Resources\Resource;
-use App\Models\Student;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Tabs;
-use App\Models\ClassSchool;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Tables\Actions\ExportAction;
@@ -87,7 +88,14 @@ class StudentResource extends Resource
                                     ->searchable(['username', 'email'])
                                     ->preload()
                                     ->required()
-                                    ->rules(['exists:users,id', 'unique:students,user_id', 'unique:employees,user_id'])
+                                    ->rules(function (callable $get) {
+                                        $userId = $get('user_id');
+                                        return [
+                                            'exists:users,id',
+                                            Rule::unique('students', 'user_id')->ignore($userId ?? 'null', 'user_id'),
+                                            Rule::unique('employees', 'user_id')->ignore($userId ?? 'null', 'user_id'),
+                                        ];
+                                    })
                                     ->createOptionForm(UserResource::getForm('create') ?? [])
                                     ->editOptionForm(UserResource::getForm('edit') ?? []),
                                 Grid::make(3)->schema([Forms\Components\TextInput::make('nis')->label('NIS')->required()->numeric()->minLength(10), Forms\Components\TextInput::make('nisn')->label('NISN')->maxLength(10), Forms\Components\TextInput::make('nik')->label('NIK')->maxLength(16)]),

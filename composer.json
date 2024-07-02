@@ -37,6 +37,7 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "league/commonmark": "^2.4",
+        "leandrocfe/filament-apex-charts": "^3.1",
         "livewire/livewire": "^3.5",
         "lucasgiovanny/filament-multiselect-two-sides": "^2.1",
         "riodwanto/filament-ace-editor": "^1.0",

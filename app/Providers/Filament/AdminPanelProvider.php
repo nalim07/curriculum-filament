@@ -19,6 +19,7 @@ use Filament\Widgets\AccountWidget;
 use Filament\Forms\Components\Livewire;
 use Illuminate\Support\Facades\Storage;
 use Filament\Widgets\FilamentInfoWidget;
+use App\Filament\Widgets\AccessLogWidget;
 use Filament\Http\Middleware\Authenticate;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use App\Filament\Pages\Tenancy\RegisterTeam;
@@ -32,6 +33,7 @@ use App\Filament\Pages\Auth\RequestPasswordReset;
 use App\Filament\Pages\Tenancy\EditEmployeePosition;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Illuminate\Routing\Middleware\SubstituteBindings;
+use App\Filament\Resources\MasterData\StudentResource;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Pages\Tenancy\RegisterEmployeePosition;
@@ -39,8 +41,14 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use App\Filament\Pages\Tenancy\EditEmployeePositionProfile;
+use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin;
+use App\Filament\Widgets\TotalEmployeePositionAndEmployeeUnitChart;
+use App\Filament\Resources\MasterData\StudentResource\Widgets\TotalStudentsChart;
+use App\Filament\Resources\SuperAdmin\UserResource\Widgets\TotalUserByRolesChart;
+use App\Filament\Resources\SuperAdmin\EmployeeResource\Widgets\TotalEmployeesChart;
+use App\Filament\Resources\MasterData\ClassSchoolResource\Widgets\TotalMemberClassSchoolInClassSchoolChart;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -81,8 +89,13 @@ class AdminPanelProvider extends PanelProvider
             ->spa()
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
+                AccessLogWidget::class,
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class
+                Widgets\FilamentInfoWidget::class,
+                TotalStudentsChart::class,
+                TotalEmployeesChart::class,
+                TotalUserByRolesChart::class,
+                TotalMemberClassSchoolInClassSchoolChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -124,6 +137,7 @@ class AdminPanelProvider extends PanelProvider
                         'personal_info' => MyProfileExtended::class,
                     ]),
                 \Hasnayeen\Themes\ThemesPlugin::make()->canViewThemesPage($canViewThemes),
+                FilamentApexChartsPlugin::make(),
             ]);
     }
 }

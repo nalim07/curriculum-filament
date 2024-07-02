@@ -15,7 +15,7 @@ class TkAchivementGradePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_teacher::tk::achivement::grade');
+        return $user->can('view_any_teacher::pg::kg::tk::achivement::grade');
     }
 
     /**
@@ -23,7 +23,7 @@ class TkAchivementGradePolicy
      */
     public function view(User $user, TkAchivementGrade $tkAchivementGrade): bool
     {
-        return $user->can('view_teacher::tk::achivement::grade');
+        return $user->can('view_teacher::pg::kg::tk::achivement::grade');
     }
 
     /**
@@ -31,7 +31,7 @@ class TkAchivementGradePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_teacher::tk::achivement::grade');
+        return $user->can('create_teacher::pg::kg::tk::achivement::grade');
     }
 
     /**
@@ -39,7 +39,7 @@ class TkAchivementGradePolicy
      */
     public function update(User $user, TkAchivementGrade $tkAchivementGrade): bool
     {
-        return $user->can('update_teacher::tk::achivement::grade');
+        return $user->can('update_teacher::pg::kg::tk::achivement::grade');
     }
 
     /**
@@ -47,7 +47,7 @@ class TkAchivementGradePolicy
      */
     public function delete(User $user, TkAchivementGrade $tkAchivementGrade): bool
     {
-        return $user->can('delete_teacher::tk::achivement::grade');
+        return $user->can('delete_teacher::pg::kg::tk::achivement::grade');
     }
 
     /**
@@ -55,7 +55,7 @@ class TkAchivementGradePolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_teacher::tk::achivement::grade');
+        return $user->can('delete_any_teacher::pg::kg::tk::achivement::grade');
     }
 
     /**
@@ -63,7 +63,7 @@ class TkAchivementGradePolicy
      */
     public function forceDelete(User $user, TkAchivementGrade $tkAchivementGrade): bool
     {
-        return $user->can('force_delete_teacher::tk::achivement::grade');
+        return $user->can('force_delete_teacher::pg::kg::tk::achivement::grade');
     }
 
     /**
@@ -71,7 +71,7 @@ class TkAchivementGradePolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_teacher::tk::achivement::grade');
+        return $user->can('force_delete_any_teacher::pg::kg::tk::achivement::grade');
     }
 
     /**
@@ -79,7 +79,7 @@ class TkAchivementGradePolicy
      */
     public function restore(User $user, TkAchivementGrade $tkAchivementGrade): bool
     {
-        return $user->can('restore_teacher::tk::achivement::grade');
+        return $user->can('restore_teacher::pg::kg::tk::achivement::grade');
     }
 
     /**
@@ -87,7 +87,7 @@ class TkAchivementGradePolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_teacher::tk::achivement::grade');
+        return $user->can('restore_any_teacher::pg::kg::tk::achivement::grade');
     }
 
     /**
@@ -95,7 +95,7 @@ class TkAchivementGradePolicy
      */
     public function replicate(User $user, TkAchivementGrade $tkAchivementGrade): bool
     {
-        return $user->can('replicate_teacher::tk::achivement::grade');
+        return $user->can('replicate_teacher::pg::kg::tk::achivement::grade');
     }
 
     /**
@@ -103,6 +103,6 @@ class TkAchivementGradePolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_teacher::tk::achivement::grade');
+        return $user->can('reorder_teacher::pg::kg::tk::achivement::grade');
     }
 }

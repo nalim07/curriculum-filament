@@ -95,7 +95,6 @@ return new class extends Migration
             $table->string('special_treatment')->nullable();
             $table->string('note_health')->nullable();
 
-
             // previeously formal school
             $table->date('old_school_entry_date')->nullable();
             $table->date('old_school_leaving_date')->nullable();
