@@ -30,4 +30,14 @@ class Handler extends ExceptionHandler
             }
         });
     }
+
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof \Symfony\Component\HttpKernel\Exception\HttpException && $exception->getStatusCode() == 403) {
+            $title = 'Forbidden';
+            return response()->view('403', compact('title'), 403);
+        }
+
+        return parent::render($request, $exception);
+    }
 }

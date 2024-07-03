@@ -24,6 +24,22 @@ Route::get('/', function () {
 
 Route::redirect('/login', 'admin/login')->name('login');
 
+// Rute Fallback untuk 404
+Route::fallback(function () {
+    $title = 'Page Not Found';
+    return view('404', compact('title'));
+});
+
+Route::get('/404', function () {
+    return view('404');
+})->name('404');
+
+// routes/web.php
+
+Route::get('/403', function () {
+    return view('403');
+})->name('403');
+
 
 Route::get('/preview-pancasila-raport', [P5BKPancasilaRaportController::class, 'previewPancasilaRaport'])->name('preview-pancasila-raport');
 Route::get('/preview-data-raport', [KMSemesterRaportController::class, 'previewDataRaport'])->name('preview-data-raport');
