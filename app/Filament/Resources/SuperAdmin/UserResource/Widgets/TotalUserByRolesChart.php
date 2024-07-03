@@ -15,10 +15,10 @@ class TotalUserByRolesChart extends ApexChartWidget
     protected function getOptions(): array
     {
         // Query to get the number of users per role
-        $rolesCounts = Role::select('name', DB::raw('count(model_has_roles.model_id) as total'))
+        $rolesCounts = Role::select('roles.name', DB::raw('count(model_has_roles.model_id) as total'))
             ->leftJoin('model_has_roles', 'roles.id', '=', 'model_has_roles.role_id')
             ->where('model_has_roles.model_type', User::class)
-            ->groupBy('roles.id')
+            ->groupBy('roles.id', 'roles.name') // Include 'roles.name' in the GROUP BY clause
             ->get();
 
         $seriesData = $rolesCounts->pluck('total');
