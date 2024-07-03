@@ -5,12 +5,15 @@ namespace App\Providers\Filament;
 use Filament\Pages;
 use Filament\Panel;
 use App\Models\User;
+use Pages\Dashboard;
 use Filament\Widgets;
 use Filament\PanelProvider;
-use Filament\Pages\Auth\Login;
+use Filament\Facades\Filament;
 use App\Settings\GeneralSettings;
+use App\Filament\Pages\Auth\Login;
 use Filament\Support\Colors\Color;
 use Hasnayeen\Themes\ThemesPlugin;
+use Spatie\Permission\Models\Role;
 use App\Livewire\MyProfileExtended;
 use Filament\Widgets\AccountWidget;
 use Illuminate\Support\Facades\Storage;
@@ -18,6 +21,8 @@ use Filament\Navigation\NavigationGroup;
 use Filament\Widgets\FilamentInfoWidget;
 use Filament\Http\Middleware\Authenticate;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
+use App\Filament\Pages\Teacher\Assessments;
+use App\Filament\Pages\Teacher\PenilaianTk;
 use App\Http\Middleware\CheckPanelPermission;
 use App\Filament\Pages\Auth\EmailVerification;
 use Hasnayeen\Themes\Http\Middleware\SetTheme;
@@ -25,16 +30,17 @@ use App\Filament\Pages\Teacher\PancasilaRaport;
 use Illuminate\Session\Middleware\StartSession;
 use App\Filament\Pages\Teacher\AchivementGrades;
 use Illuminate\Cookie\Middleware\EncryptCookies;
+use App\Filament\Pages\Auth\RequestPasswordReset;
+use App\Filament\Pages\Teacher\PrintSemesterReport;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Illuminate\Routing\Middleware\SubstituteBindings;
+use App\Filament\Pages\Teacher\PrintMidSemesterReport;
 use App\Filament\Resources\MasterData\SilabusResource;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
-use Filament\Pages\Auth\PasswordReset\RequestPasswordReset;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 
 class StudentPanelProvider extends PanelProvider
@@ -64,7 +70,7 @@ class StudentPanelProvider extends PanelProvider
             ->databaseNotificationsPolling('30s')
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->sidebarCollapsibleOnDesktop()
-            ->discoverResources(in: app_path('Filament/Resources/TeacherPgKg'), for: 'App\\Filament\\Resources\\TeacherPgKg')
+            ->discoverResources(in: app_path(''), for: '')
             ->resources([
                 SilabusResource::class,
             ])
