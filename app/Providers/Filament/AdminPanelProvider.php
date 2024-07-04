@@ -48,6 +48,7 @@ use App\Filament\Widgets\TotalEmployeePositionAndEmployeeUnitChart;
 use App\Filament\Resources\MasterData\StudentResource\Widgets\TotalStudentsChart;
 use App\Filament\Resources\SuperAdmin\UserResource\Widgets\TotalUserByRolesChart;
 use App\Filament\Resources\SuperAdmin\EmployeeResource\Widgets\TotalEmployeesChart;
+use App\Filament\Resources\MasterData\StudentResource\Widgets\StatsStudentOverviewWidget;
 use App\Filament\Resources\MasterData\ClassSchoolResource\Widgets\TotalMemberClassSchoolInClassSchoolChart;
 
 class AdminPanelProvider extends PanelProvider
@@ -91,7 +92,7 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 AccessLogWidget::class,
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                StatsStudentOverviewWidget::class,
                 TotalStudentsChart::class,
                 TotalEmployeesChart::class,
                 TotalUserByRolesChart::class,
@@ -139,5 +140,10 @@ class AdminPanelProvider extends PanelProvider
                 \Hasnayeen\Themes\ThemesPlugin::make()->canViewThemesPage($canViewThemes),
                 FilamentApexChartsPlugin::make(),
             ]);
+    }
+
+    public function getColumns(): int | string | array
+    {
+        return 5;
     }
 }

@@ -13,7 +13,6 @@ use Filament\Forms\Get;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
 use App\Models\TkElement;
-
 use App\Models\TkSubtopic;
 use App\Models\ClassSchool;
 use App\Models\TkAttendance;
@@ -28,7 +27,6 @@ use Filament\Forms\Components\Select;
 use App\Models\PancasilaRaportProject;
 use App\Models\StudentPancasilaRaport;
 use App\Models\TkAchivementEventGrade;
-use function PHPUnit\Framework\isNull;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -36,16 +34,18 @@ use App\Models\PancasilaRaportProjectGroup;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\PancasilaRaportValueDescription;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
-use App\Helpers\GeneratePancasilaRaport; // Pastikan ini sudah diimpor
+use App\Helpers\GeneratePancasilaRaport;
 
 class AchivementGrades extends Page
 {
-    // use HasPageShield;
     public ?array $data = [];
     protected ?string $heading = 'Achivement Grades';
     public bool $saveBtn = false;
     public ?int $anggotaKelas;
     public $achivement = [];
+    public $eventAchievements = [];
+    public $attendance = [];
+    public $homeroomNotes;
     public $notes = [];
     public ?Collection $students;
     public ?Collection $dataTkElements;
@@ -53,7 +53,7 @@ class AchivementGrades extends Page
     public ?Collection $dataTkSubtopics;
     public ?Collection $dataTkPoints;
     public ?Collection $dataEvents;
-    public ?Collection $dataAttendance;
+    public ?TkAttendance $dataAttendance;
     public ?Collection $dataAchivements;
     public ?Collection $dataAchivementEvents;
     public ?Collection $dataCatatanWalikelas;
@@ -64,6 +64,7 @@ class AchivementGrades extends Page
     public function mount(): void
     {
         $this->form->fill();
+        $this->loadAchievements();
     }
 
     public function form(Form $form): Form
@@ -96,6 +97,7 @@ class AchivementGrades extends Page
                                 })
                                 ->toArray(),
                         )
+                        ->reactive()
                         ->required(),
                     Select::make('member_class_school_id')
                         ->label('Student')
@@ -103,10 +105,19 @@ class AchivementGrades extends Page
                         ->preload()
                         ->options(function (Get $get) {
                             return MemberClassSchool::where('class_school_id', $get('class_school_id'))->get()->pluck('student.fullname', 'id')->toArray();
-                        }),
+                        })
+                        ->reactive()
+                        ->required(),
                 ])->columns(3),
             ])
             ->statePath('data');
+    }
+
+    public function updated($propertyName)
+    {
+        if ($propertyName === 'data.class_school_id') {
+            $this->data['member_class_school_id'] = null;
+        }
     }
 
     public function find(): void
@@ -124,38 +135,68 @@ class AchivementGrades extends Page
             ->get();
 
         $this->dataAchivements = TkAchivementGrade::where('term_id', $data['term_id'])->get(['member_class_school_id', 'tk_point_id', 'achivement']);
-        $this->dataAchivementEvents = TkAchivementEventGrade::get(['member_class_school_id', 'tk_event_id', 'achivement_event']);
-        $this->dataAttendance = TkAttendance::where('member_class_school_id', $data['member_class_school_id'])->first(['member_class_school_id', 'no_school_days', 'days_attended', 'days_absent']);
-        $this->dataCatatanWalikelas = HomeroomNotes::where('member_class_school_id', $data['member_class_school_id'])->first(['member_class_school_id', 'notes']);
+        $this->dataAchivementEvents = TkAchivementEventGrade::where('member_class_school_id', $data['member_class_school_id'])->get(['member_class_school_id', 'tk_event_id', 'achivement_event']);
+        $this->dataAttendance = TkAttendance::where('member_class_school_id', $data['member_class_school_id'])->first();
+        $this->dataCatatanWalikelas = HomeroomNotes::where('member_class_school_id', $data['member_class_school_id'])->get();
 
         $this->dataEvents = TkEvent::where('academic_year_id', Helper::getActiveAcademicYearId())
             ->where('term_id', $data['term_id'])
             ->get();
 
         $this->saveBtn = true;
+        $this->loadAchievements();
     }
 
     public function loadAchievements()
     {
-        $achievements = TkAchivementGrade::where('member_class_school_id', $this->data['member_class_school_id'])
-            ->where('term_id', $this->data['term_id'])
-            ->get();
+        if (isset($this->data['member_class_school_id']) && isset($this->data['term_id'])) {
+            $achievements = TkAchivementGrade::where('member_class_school_id', $this->data['member_class_school_id'])
+                ->where('term_id', $this->data['term_id'])
+                ->get();
 
-        foreach ($achievements as $achievement) {
-            $this->achivement[$achievement->tk_point_id] = $achievement->achivement;
+            foreach ($achievements as $achievement) {
+                $this->achivement[$achievement->tk_point_id] = $achievement->achivement;
+            }
+
+            $eventAchievements = TkAchivementEventGrade::where('member_class_school_id', $this->data['member_class_school_id'])
+                ->get();
+
+            foreach ($eventAchievements as $eventAchievement) {
+                $this->eventAchievements[$eventAchievement->tk_event_id] = $eventAchievement->achivement_event;
+            }
+
+            $attendance = TkAttendance::where('member_class_school_id', $this->data['member_class_school_id'])
+                ->first();
+
+            if ($attendance) {
+                $this->attendance = [
+                    'no_school_days' => $attendance->no_school_days,
+                    'days_attended' => $attendance->days_attended,
+                    'days_absent' => $attendance->days_absent,
+                ];
+            }
+
+            $homeroomNotes = HomeroomNotes::where('member_class_school_id', $this->data['member_class_school_id'])
+                ->first();
+
+            if ($homeroomNotes) {
+                $this->homeroomNotes = $homeroomNotes->notes;
+            }
         }
     }
 
     public function save()
     {
         DB::beginTransaction();
+
         try {
             $memberClassSchoolId = $this->data['member_class_school_id'];
             $termId = $this->data['term_id'];
+            $classSchoolId = $this->data['class_school_id'];
 
             foreach ($this->achivement as $tkPointId => $achivement) {
                 if ($achivement) {
-                    TkAchivementGrade::updateOrCreate(
+                    $tkAchivementGrade = TkAchivementGrade::updateOrCreate(
                         [
                             'member_class_school_id' => $memberClassSchoolId,
                             'tk_point_id' => $tkPointId,
@@ -165,8 +206,39 @@ class AchivementGrades extends Page
                             'achivement' => $achivement,
                         ]
                     );
+
+                    Log::info('TkAchivementGrade saved: ', $tkAchivementGrade->toArray());
                 }
             }
+
+            foreach ($this->eventAchievements as $tkEventId => $achivementEvent) {
+                TkAchivementEventGrade::updateOrCreate(
+                    [
+                        'member_class_school_id' => $memberClassSchoolId,
+                        'tk_event_id' => $tkEventId,
+                    ],
+                    [
+                        'achivement_event' => $achivementEvent,
+                    ]
+                );
+            }
+
+            TkAttendance::updateOrCreate(
+                [
+                    'member_class_school_id' => $memberClassSchoolId,
+                ],
+                $this->attendance
+            );
+
+            HomeroomNotes::updateOrCreate(
+                [
+                    'member_class_school_id' => $memberClassSchoolId,
+                    'class_school_id' => $classSchoolId,
+                ],
+                [
+                    'notes' => $this->homeroomNotes,
+                ]
+            );
 
             DB::commit();
             Notification::make()
@@ -184,6 +256,6 @@ class AchivementGrades extends Page
 
     public static function getNavigationGroup(): ?string
     {
-        return __('menu.nav_group.report_p5');
+        return __('menu.nav_group.report_tk');
     }
 }

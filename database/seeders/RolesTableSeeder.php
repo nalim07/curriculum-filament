@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class RolesTableSeeder extends Seeder
 {
@@ -58,5 +60,17 @@ class RolesTableSeeder extends Seeder
                 ]);
             }
         }
+
+        // Add these lines to your permission seeding logic
+        Permission::create(['name' => 'export_student']);
+        Permission::create(['name' => 'import_student']);
+
+        $role = Role::findByName('curriculum');
+        $role->givePermissionTo('export_student');
+        $role->givePermissionTo('import_student');
+
+        $role = Role::findByName('super_admin');
+        $role->givePermissionTo('export_student');
+        $role->givePermissionTo('import_student');
     }
 }

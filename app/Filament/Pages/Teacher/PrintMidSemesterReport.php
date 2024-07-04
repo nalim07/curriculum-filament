@@ -72,6 +72,7 @@ class PrintMidSemesterReport extends Page
                         )
                         ->required(),
                     DatePicker::make('date')
+                        ->default(now())
                         ->native(false)
                         ->label('Date')
                         ->required(),

@@ -105,4 +105,17 @@ class StudentPolicy
     {
         return $user->can('reorder_teacher::student::data');
     }
+
+    public function export(User $user): bool
+    {
+        return $user->can('export_student');
+    }
+
+    /**
+     * Determine whether the user can import student data.
+     */
+    public function import(User $user): bool
+    {
+        return $user->can('import_student');
+    }
 }

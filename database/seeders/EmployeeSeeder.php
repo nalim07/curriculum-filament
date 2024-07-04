@@ -127,7 +127,7 @@ class EmployeeSeeder extends Seeder
             'password' => Hash::make('123456'),
             'status' => true,
         ]);
-        $guru->assignRole(['teacher']);
+        $guru->assignRole(['teacher_pg_kg']);
         $employee = Employee::create([
             'user_id' => $guru->id,
             'employee_status_id' => 1,

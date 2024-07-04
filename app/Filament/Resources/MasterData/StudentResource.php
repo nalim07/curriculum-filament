@@ -271,8 +271,11 @@ class StudentResource extends Resource
             ->headerActions([
                 ExportAction::make()
                     ->exporter(StudentExporter::class)
-                    ->columnMapping(false),
-                ImportAction::make()->importer(StudentImporter::class),
+                    ->columnMapping(false)
+                    ->authorize(auth()->user()->can('export_student')),
+                ImportAction::make()
+                    ->importer(StudentImporter::class)
+                    ->authorize(auth()->user()->can('import_student')),
             ])
             ->columns([Tables\Columns\TextColumn::make('fullname')->searchable(), Tables\Columns\TextColumn::make('classSchool.name')->numeric()->sortable(), Tables\Columns\TextColumn::make('level.name')->numeric()->sortable(), Tables\Columns\TextColumn::make('line.name')->numeric()->sortable(), Tables\Columns\TextColumn::make('nis')->label('NIS')->searchable(), Tables\Columns\TextColumn::make('nisn')->label('NISN')->searchable(), Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true), Tables\Columns\TextColumn::make('updated_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true), Tables\Columns\TextColumn::make('deleted_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true)])
             ->filters([

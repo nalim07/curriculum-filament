@@ -36,6 +36,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Filament\Pages\Auth\PasswordReset\RequestPasswordReset;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use App\Filament\Pages\TeacherPgKg\PrintAchivementGradesReport;
 
 class TeacherPgKgPanelProvider extends PanelProvider
 {
@@ -71,6 +72,7 @@ class TeacherPgKgPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
                 AchivementGrades::class,
+                PrintAchivementGradesReport::class,
             ])
             ->spa()
             ->viteTheme('resources/css/filament/admin/theme.css')

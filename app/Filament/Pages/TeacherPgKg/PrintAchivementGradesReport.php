@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Pages\Teacher;
+namespace App\Filament\Pages\TeacherPgKg;
 
 use App\Helpers\Helper;
 use App\Models\Student;
@@ -14,26 +14,27 @@ use Filament\Forms\Components\Select;
 use Illuminate\Database\Eloquent\Collection;
 use Filament\Forms\Components\DatePicker;
 
-class PrintSemesterReport extends Page
+class PrintAchivementGradesReport extends Page
 {
     // use HasPageShield;
     public ?array $data = [];
-    protected ?string $heading = 'Semester Progress Report';
+    protected ?string $heading = 'Print Report';
     public bool $saveBtn = false;
     public $notes = [];
     public ?Collection $memberClassSchool;
     protected static ?string $navigationIcon = 'heroicon-o-arrow-down-on-square';
-    protected static string $view = 'filament.pages.teacher.print-semester-report';
+    protected static ?string $navigationLabel = 'Print Report';
+    protected static ?string $modelLabel  = 'Print Report';
+    protected static string $view = 'filament.pages.teacher.print-pg-kg-report';
 
     public static function getNavigationSort(): ?int
     {
-        return 7;  // Adjust this number based on where you want this page in the order
+        return 7;
     }
 
     public function mount(): void
     {
         $this->form->fill();
-        // $this->pancasilaRaportValueDescription = PancasilaRaportValueDescription::all();
     }
 
     protected function getHeaderActions(): array
@@ -46,22 +47,33 @@ class PrintSemesterReport extends Page
         return $form
             ->schema([
                 Group::make([
-                    Select::make('class_school_id')
-                        ->label('Class School')
-                        ->searchable()
-                        ->options(function (Get $get) {
-                            return ClassSchool::where('academic_year_id', Helper::getActiveAcademicYearId())->whereNotIn('level_id', [1, 2, 3])->get()->pluck('name', 'id')->toArray();
-                        })
-                        ->required(),
-                    Select::make('semester_id')
-                        ->label('Semester')
+                    Select::make('term_id')
+                        ->label('Term')
                         ->searchable()
                         ->options(
                             [
                                 1 => '1',
                                 2 => '2',
+                                3 => '3',
+                                4 => '4',
                             ]
                         )
+                        ->required(),
+                    Select::make('class_school_id')
+                        ->label('Class School')
+                        ->searchable()
+                        ->options(function (Get $get) {
+                            if (auth()->user()->hasRole('super_admin')) {
+                                return ClassSchool::whereIn('level_id', [1, 2, 3])->where('academic_year_id', Helper::getActiveAcademicYearId())->get()->pluck('name', 'id')->toArray();
+                            } else {
+                                $user = auth()->user();
+                                if ($user && $user->employee && $user->employee->teacher) {
+                                    $teacherId = $user->employee->teacher->id;
+                                    return ClassSchool::whereIn('level_id', [1, 2, 3])->where('teacher_id', $teacherId)->where('academic_year_id', Helper::getActiveAcademicYearId())->get()->pluck('name', 'id')->toArray();
+                                }
+                                return ClassSchool::whereIn('level_id', [1, 2, 3])->where('academic_year_id', Helper::getActiveAcademicYearId())->get()->pluck('name', 'id')->toArray();
+                            }
+                        })
                         ->required(),
                     DatePicker::make('date')
                         ->default(now())
@@ -91,7 +103,7 @@ class PrintSemesterReport extends Page
     {
         $data = $this->form->getState();
 
-        return redirect()->route('preview-semester-raport', [
+        return redirect()->route('preview-pg-kg-raport', [
             'livewire' => json_encode($this),
             'data' => json_encode($data)
         ]);
@@ -101,7 +113,7 @@ class PrintSemesterReport extends Page
     {
         $data = $this->form->getState();
 
-        return redirect()->route('preview-data-raport', [
+        return redirect()->route('preview-data-pg-kg-raport', [
             'livewire' => json_encode($this),
             'data' => json_encode($data)
         ]);
@@ -109,6 +121,6 @@ class PrintSemesterReport extends Page
 
     public static function getNavigationGroup(): ?string
     {
-        return __("menu.nav_group.report_km_homeroom");
+        return __("menu.nav_group.report_tk");
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\PenilaianTkController;
 use App\Http\Controllers\KMSemesterRaportController;
 use App\Http\Controllers\KMMidSemesterRaportController;
 use App\Http\Controllers\P5BKPancasilaRaportController;
+use App\Http\Controllers\PgKgRaportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,3 +46,5 @@ Route::get('/preview-pancasila-raport', [P5BKPancasilaRaportController::class, '
 Route::get('/preview-data-raport', [KMSemesterRaportController::class, 'previewDataRaport'])->name('preview-data-raport');
 Route::get('/preview-semester-raport', [KMSemesterRaportController::class, 'previewSemesterRaport'])->name('preview-semester-raport');
 Route::get('/preview-mid-semester-raport', [KMMidSemesterRaportController::class, 'previewMidSemesterRaport'])->name('preview-mid-semester-raport');
+Route::get('/preview-pg-kg-raport', [PgKgRaportController::class, 'previewPgKgRaport'])->name('preview-pg-kg-raport');
+Route::get('/preview-data-pg-kg-raport', [PgKgRaportController::class, 'previewDataPgKgRaport'])->name('preview-data-pg-kg-raport');

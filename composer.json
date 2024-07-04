@@ -23,7 +23,7 @@
         "bezhansalleh/filament-exceptions": "^2.1",
         "bezhansalleh/filament-panel-switch": "^1.0",
         "bezhansalleh/filament-shield": "^3.2",
-        "calebporzio/sushi": "^2.5",
+        "calebporzio/sushi": "^2.4",
         "codeat3/blade-fluentui-system-icons": "^1.32",
         "filament/filament": "^3.2",
         "filament/spatie-laravel-media-library-plugin": "^3.2",
