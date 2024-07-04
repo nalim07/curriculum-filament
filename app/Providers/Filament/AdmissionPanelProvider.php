@@ -81,7 +81,7 @@ class AdmissionPanelProvider extends PanelProvider
             ->tenantMiddleware([\Hasnayeen\Themes\Http\Middleware\SetTheme::class])
             ->authMiddleware([
                 Authenticate::class,
-                \App\Http\Middleware\CheckPanelPermission::class . ':curriculum',
+                \App\Http\Middleware\CheckPanelPermission::class . ':admission',
             ])
             ->plugins([
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
