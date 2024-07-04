@@ -84,7 +84,7 @@ class SchoolResource extends Resource
                                     ->required()
                                     ->maxLength(5),
 
-                                Forms\Components\TextArea::make('address')
+                                Forms\Components\Textarea::make('address')
                                     ->required()
                                     ->maxLength(255),
                             ]),
