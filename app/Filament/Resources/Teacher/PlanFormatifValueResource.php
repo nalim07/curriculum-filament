@@ -211,13 +211,11 @@ class PlanFormatifValueResource extends Resource
                                 }
                             } else {
                                 if ($user && $user->employee && $user->employee->teacher) {
-                                    $learningData = LearningData::whereHas('learningData', function (Builder $query) use ($user) {
-                                        $query->with('classSchool.level')
-                                            ->where('teacher_id', $user->employee->teacher->id)
-                                            ->whereHas('classSchool', function (Builder $query) {
-                                                $query->where('academic_year_id', Helper::getActiveAcademicYearId());
-                                            });
-                                    })->first();
+                                    $learningData = LearningData::with('classSchool.level')
+                                        ->where('teacher_id', $user->employee->teacher->id)
+                                        ->whereHas('classSchool', function (Builder $query) {
+                                            $query->where('academic_year_id', Helper::getActiveAcademicYearId());
+                                        })->first();
                                     if ($learningData) {
                                         $learningDataId = $learningData->id;
                                     }
@@ -235,7 +233,6 @@ class PlanFormatifValueResource extends Resource
                         })
                         ->relationship('semester', 'semester')
                         ->searchable()
-                        ->visible(fn () => Auth::user()->hasRole('super_admin'))
                         ->preload(),
 
                     Tables\Filters\SelectFilter::make('term_id')
@@ -250,13 +247,11 @@ class PlanFormatifValueResource extends Resource
                                 }
                             } else {
                                 if ($user && $user->employee && $user->employee->teacher) {
-                                    $learningData = LearningData::whereHas('learningData', function (Builder $query) use ($user) {
-                                        $query->with('classSchool.level')
-                                            ->where('teacher_id', $user->employee->teacher->id)
-                                            ->whereHas('classSchool', function (Builder $query) {
-                                                $query->where('academic_year_id', Helper::getActiveAcademicYearId());
-                                            });
-                                    })->first();
+                                    $learningData = LearningData::with('classSchool.level')
+                                        ->where('teacher_id', $user->employee->teacher->id)
+                                        ->whereHas('classSchool', function (Builder $query) {
+                                            $query->where('academic_year_id', Helper::getActiveAcademicYearId());
+                                        })->first();
                                     if ($learningData) {
                                         $learningDataId = $learningData->id;
                                     }
@@ -277,7 +272,6 @@ class PlanFormatifValueResource extends Resource
                             '2' => '2',
                         ])
                         ->searchable()
-                        ->visible(fn () => Auth::user()->hasRole('super_admin'))
                         ->preload()
                 ],
                 layout: FiltersLayout::AboveContent,

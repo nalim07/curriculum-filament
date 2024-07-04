@@ -114,11 +114,6 @@ class ExtracurricularAssessmentResource extends Resource
 
                             return $extracurricular ? $extracurricular->id : null;
                         })
-                    // Tables\Filters\SelectFilter::make('term_id')->label('Term')->options([
-                    //     '1' => '1',
-                    //     '2' => '2',
-                    // ])->searchable()->visible(fn () => Auth::user()->hasRole('super_admin'))->preload(),
-                    // Tables\Filters\SelectFilter::make('semester_id')->label('Semester')->relationship('semester', 'semester')->searchable()->visible(fn () => Auth::user()->hasRole('super_admin'))->preload(),
                 ],
                 layout: FiltersLayout::AboveContent,
             )

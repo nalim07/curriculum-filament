@@ -203,12 +203,12 @@ class GradingResource extends Resource
                                 $user = auth()->user();
                                 if ($user && $user->employee && $user->employee->teacher) {
                                     $teacherId = $user->employee->teacher->id;
-                                    return $query->with('subject')->where('academic_year_id', Helper::getActiveAcademicYearId())
+                                    return $query->with('subject')
                                         ->whereHas('classSchool', function (Builder $query) {
                                             $query->where('academic_year_id', Helper::getActiveAcademicYearId());
                                         })->where('teacher_id', $teacherId);
                                 }
-                                return $query->with('subject')->where('academic_year_id', Helper::getActiveAcademicYearId());
+                                return $query->with('subject');
                             }
                         })
                         ->getOptionLabelFromRecordUsing(fn ($record) => $record->subject->name . ' - ' . $record->classSchool->name)
@@ -267,7 +267,6 @@ class GradingResource extends Resource
                         })
                         ->relationship('semester', 'semester')
                         ->searchable()
-                        ->visible(fn () => Auth::user()->hasRole('super_admin'))
                         ->preload(),
 
                     Tables\Filters\SelectFilter::make('term_id')
@@ -309,7 +308,6 @@ class GradingResource extends Resource
                             '2' => '2',
                         ])
                         ->searchable()
-                        ->visible(fn () => Auth::user()->hasRole('super_admin'))
                         ->preload()
                 ],
                 layout: FiltersLayout::AboveContent,
