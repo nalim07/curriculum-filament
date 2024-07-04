@@ -40,21 +40,21 @@ class AppServiceProvider extends ServiceProvider
                 ->modalWidth('sm')
                 ->slideOver()
                 ->icons([
-                    'admin' => 'heroicon-o-cog-6-tooth',
-                    'admission' => 'heroicon-o-clipboard-document-list',
+                    'student' => 'heroicon-o-user',
                     'curriculum' => 'heroicon-o-circle-stack',
+                    'admission' => 'heroicon-o-clipboard-document-list',
                     'teacher' => 'heroicon-o-user-group',
                     'teacher-pg-kg' => 'heroicon-o-users',
-                    'student' => 'heroicon-o-user',
+                    'admin' => 'heroicon-o-cog-6-tooth',
                 ])
                 ->iconSize(15)
                 ->labels([
-                    'admin' => 'Admin',
-                    'admission' => 'Admission',
+                    'student' => 'Student',
                     'curriculum' => 'Curriculum',
+                    'admission' => 'Admission',
                     'teacher' => 'Teacher',
                     'teacher-pg-kg' => 'Teacher PG-KG',
-                    'student' => 'Student',
+                    'admin' => 'Admin',
                 ]);
 
             $panelSwitch->excludes(function () {
@@ -63,33 +63,28 @@ class AppServiceProvider extends ServiceProvider
                 if ($user) {
                     $excludedPanels = [];
 
-                    // Jika user memiliki permission 'can_access_panel_admin'
-                    if (!$user->can('can_access_panel_admin')) {
-                        $excludedPanels[] = 'admin';
+                    if (!$user->can('can_access_panel_student')) {
+                        $excludedPanels[] = 'student';
                     }
 
-                    // Jika user memiliki permission 'can_access_panel_curriculum'
                     if (!$user->can('can_access_panel_curriculum')) {
                         $excludedPanels[] = 'curriculum';
                     }
 
-                    // Jika user memiliki permission 'can_access_panel_admission'
                     if (!$user->can('can_access_panel_admission')) {
                         $excludedPanels[] = 'admission';
                     }
 
-                    // Jika user memiliki permission 'can_access_panel_teacher'
                     if (!$user->can('can_access_panel_teacher')) {
                         $excludedPanels[] = 'teacher';
                     }
 
-                    // Jika user memiliki permission 'can_access_panel_teacher_pg_kg'
                     if (!$user->can('can_access_panel_teacher_pg_kg')) {
                         $excludedPanels[] = 'teacher-pg-kg';
                     }
 
-                    if (!$user->can('can_access_panel_student')) {
-                        $excludedPanels[] = 'student';
+                    if (!$user->can('can_access_panel_admin')) {
+                        $excludedPanels[] = 'admin';
                     }
 
                     return $excludedPanels;

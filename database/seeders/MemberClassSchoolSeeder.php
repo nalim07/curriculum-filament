@@ -26,5 +26,12 @@ class MemberClassSchoolSeeder extends Seeder
             'academic_year_id' => 1,
             'registration_type' => 1,
         ]);
+
+        MemberClassSchool::create([
+            'student_id' => 3,
+            'class_school_id' => 1,
+            'academic_year_id' => 1,
+            'registration_type' => 1,
+        ]);
     }
 }

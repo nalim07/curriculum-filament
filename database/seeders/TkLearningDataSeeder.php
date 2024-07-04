@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\TkLearningData;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class TkLearningDataSeeder extends Seeder
 {
@@ -12,6 +13,11 @@ class TkLearningDataSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        TkLearningData::create([
+            'tk_topic_id' => 1,
+            'teacher_id' => 1,
+            'level_id' => 1,
+            'class_school_id' => 1,
+        ]);
     }
 }

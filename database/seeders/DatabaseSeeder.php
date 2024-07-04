@@ -4,15 +4,16 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\AcademicYear;
 use App\Models\EmployeeUnit;
+use App\Models\Extracurricular;
+use App\Models\LearningOutcome;
+use App\Models\MinimumCriteria;
 use Illuminate\Database\Seeder;
 use App\Models\EmployeePosition;
-use App\Models\AcademicYear;
-use App\Models\LearningOutcome;
-use Illuminate\Support\Facades\Artisan;
-use App\Models\Extracurricular;
-use App\Models\MinimumCriteria;
 use App\Models\PlanFormatifValue;
+use Database\Seeders\TkPointSeeder;
+use Illuminate\Support\Facades\Artisan;
 use Database\Seeders\MemberClassSchoolSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -67,6 +68,12 @@ class DatabaseSeeder extends Seeder
 
             // TK
             TkEventSeeder::class,
+            TkElementSeeder::class,
+            TkTopicSeeder::class,
+            TkSubtopicSeeder::class,
+            TkPointSeeder::class,
+            TkLearningDataSeeder::class,
+
         ]);
 
         Artisan::call('shield:generate --all');

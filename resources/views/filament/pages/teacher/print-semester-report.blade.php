@@ -42,11 +42,11 @@
                 <thead class="bg-gray-50 dark:bg-gray-800">
                     <tr>
                         <th scope="col"
-                            class="w-auto px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                            class="w-auto px-6 py-3 text-left text-sm font-medium text-gray-500 dark:text-white uppercase tracking-wider">
                             NIS
                         </th>
                         <th scope="col"
-                            class="w-auto px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                            class="w-auto px-6 py-3 text-left text-sm font-medium text-gray-500 dark:text-white uppercase tracking-wider">
                             Name
                         </th>
                     </tr>

@@ -23,8 +23,8 @@ use App\Filament\Pages\Auth\EmailVerification;
 use Hasnayeen\Themes\Http\Middleware\SetTheme;
 use App\Filament\Pages\Teacher\PancasilaRaport;
 use Illuminate\Session\Middleware\StartSession;
-use App\Filament\Pages\Teacher\AchivementGrades;
 use Illuminate\Cookie\Middleware\EncryptCookies;
+use App\Filament\Pages\TeacherPgKg\AchivementGrades;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use App\Filament\Resources\MasterData\SilabusResource;
@@ -70,7 +70,7 @@ class TeacherPgKgPanelProvider extends PanelProvider
             ])
             ->pages([
                 Pages\Dashboard::class,
-                // AchivementGrades::class,
+                AchivementGrades::class,
             ])
             ->spa()
             ->viteTheme('resources/css/filament/admin/theme.css')

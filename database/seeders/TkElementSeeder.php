@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\TkElement;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class TkElementSeeder extends Seeder
 {
@@ -12,6 +13,21 @@ class TkElementSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        TkElement::create([
+            'level_id' => 1,
+            'name' => 'COMMUNICATION, LANGUAGES AND LITERACY',
+        ]);
+        TkElement::create([
+            'level_id' => 1,
+            'name' => 'PROBLEM SOLVING, REASONING AND NUMERACY',
+        ]);
+        TkElement::create([
+            'level_id' => 1,
+            'name' => 'KNOWLEDGE AND UNDERSTANDING OF THE WORLD',
+        ]);
+        TkElement::create([
+            'level_id' => 2,
+            'name' => 'KNOWLEDGE AND UNDERSTANDING OF THE WORLD',
+        ]);
     }
 }
