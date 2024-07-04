@@ -19,7 +19,7 @@ class AcademicYearResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = -1;
 
     public static function form(Form $form): Form
     {
