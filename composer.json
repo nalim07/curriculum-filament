@@ -41,6 +41,8 @@
         "livewire/livewire": "^3.5",
         "lucasgiovanny/filament-multiselect-two-sides": "^2.1",
         "riodwanto/filament-ace-editor": "^1.0",
+        "sentry/sentry": "^4.8",
+        "sentry/sentry-laravel": "^4.6",
         "solution-forest/filament-tree": "^2.0",
         "z3d0x/filament-logger": "^0.6.3"
     },

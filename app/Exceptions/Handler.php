@@ -28,6 +28,10 @@ class Handler extends ExceptionHandler
             if ($this->shouldReport($e)) {
                 FilamentExceptions::report($e);
             }
+
+            if (app()->bound('sentry')) {
+                app('sentry')->captureException($e);
+            }
         });
     }
 
