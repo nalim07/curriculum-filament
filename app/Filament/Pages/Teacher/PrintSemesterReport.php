@@ -18,7 +18,7 @@ class PrintSemesterReport extends Page
 {
     // use HasPageShield;
     public ?array $data = [];
-    protected ?string $heading = 'Semester Progress Raport';
+    protected ?string $heading = 'Semester Progress Report';
     public bool $saveBtn = false;
     public $notes = [];
     public ?Collection $memberClassSchool;
