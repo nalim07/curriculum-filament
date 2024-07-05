@@ -44,6 +44,7 @@ use App\Filament\Pages\Tenancy\EditEmployeePositionProfile;
 use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin;
+use Croustibat\FilamentJobsMonitor\FilamentJobsMonitorPlugin;
 use App\Filament\Widgets\TotalEmployeePositionAndEmployeeUnitChart;
 use App\Filament\Resources\MasterData\StudentResource\Widgets\TotalStudentsChart;
 use App\Filament\Resources\SuperAdmin\UserResource\Widgets\TotalUserByRolesChart;
@@ -139,6 +140,7 @@ class AdminPanelProvider extends PanelProvider
                     ]),
                 \Hasnayeen\Themes\ThemesPlugin::make()->canViewThemesPage($canViewThemes),
                 FilamentApexChartsPlugin::make(),
+                FilamentJobsMonitorPlugin::make(),
             ]);
     }
 
