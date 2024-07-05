@@ -34,7 +34,7 @@ class StudentImporter extends Importer
                 ->rules(['required', 'max:100']),
             ImportColumn::make('email')
                 ->requiredMapping()
-                ->rules(['nullable', 'email']),
+                ->rules(['nullable']),
             ImportColumn::make('nis')
                 ->requiredMapping()
                 ->rules(['required', 'max:10']),
@@ -101,9 +101,9 @@ class StudentImporter extends Importer
             ImportColumn::make('distance_home_to_school')
                 ->rules(['nullable']),
             ImportColumn::make('email_parent')
-                ->rules(['nullable', 'email']),
+                ->rules(['nullable']),
             ImportColumn::make('phone_number')
-                ->rules(['nullable', 'max:13']),
+                ->rules(['nullable']),
             ImportColumn::make('living_together')
                 ->rules(['nullable']),
             ImportColumn::make('transportation')
@@ -122,7 +122,7 @@ class StudentImporter extends Importer
             ImportColumn::make('father_address')
                 ->rules(['nullable', 'max:100']),
             ImportColumn::make('father_phone_number')
-                ->rules(['nullable', 'max:13']),
+                ->rules(['nullable']),
             ImportColumn::make('father_religion')
                 ->fillRecordUsing(fn (Student $record, ?string $state) => $record->father_religion = Helper::getReligionByName($state))
                 ->rules(['nullable']),
@@ -148,7 +148,7 @@ class StudentImporter extends Importer
             ImportColumn::make('mother_address')
                 ->rules(['nullable', 'max:100']),
             ImportColumn::make('mother_phone_number')
-                ->rules(['nullable', 'max:13']),
+                ->rules(['nullable']),
             ImportColumn::make('mother_religion')
                 ->fillRecordUsing(fn (Student $record, ?string $state) => $record->mother_religion = Helper::getReligionByName($state))
                 ->rules(['nullable']),
@@ -174,7 +174,7 @@ class StudentImporter extends Importer
             ImportColumn::make('guardian_address')
                 ->rules(['nullable', 'max:100']),
             ImportColumn::make('guardian_phone_number')
-                ->rules(['nullable', 'max:13']),
+                ->rules(['nullable']),
             ImportColumn::make('guardian_religion')
                 ->fillRecordUsing(fn (Student $record, ?string $state) => $record->guardian_religion = Helper::getReligionByName($state))
                 ->rules(['nullable']),
@@ -266,6 +266,8 @@ class StudentImporter extends Importer
         if (!$user->exists) {
             $user->id = (string) Str::uuid();
         }
+
+        $user->assignRole('student');
 
         $user->save();
 

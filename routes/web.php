@@ -23,7 +23,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::redirect('/login', '/admin/login')->name('login');
+Route::redirect('/login', 'admin/login')->name('login');
 
 // Rute Fallback untuk 404
 Route::fallback(function () {
