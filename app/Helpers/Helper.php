@@ -104,7 +104,7 @@ class Helper
         } elseif ($name == 'Konghucu') {
             return '6';
         } else {
-            return '7';
+            return null;
         }
     }
 

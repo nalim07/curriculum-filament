@@ -44,7 +44,7 @@ class EmployeesRelationManager extends RelationManager
 
                                 Forms\Components\Grid::make()
                                     ->schema([
-                                        Forms\Components\TextInput::make('full_name')
+                                        Forms\Components\TextInput::make('fullname')
                                             ->label('Full Name')
                                             ->required()
                                             ->maxLength(255),
@@ -360,9 +360,9 @@ class EmployeesRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('full_name')
+            ->recordTitleAttribute('fullname')
             ->columns([
-                Tables\Columns\TextColumn::make('full_name')->label('Name'),
+                Tables\Columns\TextColumn::make('fullname')->label('Name'),
                 Tables\Columns\TextColumn::make('user.username')->label('Username'),
                 Tables\Columns\TextColumn::make('user.email')->label('Email'),
             ])
@@ -371,11 +371,11 @@ class EmployeesRelationManager extends RelationManager
             ])
             ->headerActions([
                 CreateAction::make()
-                ->visible(function (Builder $query): bool {
-                    $user = $this->ownerRecord;
-                    $user = is_null($user->employee) ? true : false;
-                    return $user;
-                })
+                    ->visible(function (Builder $query): bool {
+                        $user = $this->ownerRecord;
+                        $user = is_null($user->employee) ? true : false;
+                        return $user;
+                    })
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

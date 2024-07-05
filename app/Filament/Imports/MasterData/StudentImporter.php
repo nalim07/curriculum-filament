@@ -43,7 +43,9 @@ class StudentImporter extends Importer
             ImportColumn::make('nik')
                 ->rules(['nullable', 'max:16']),
             ImportColumn::make('registration_type')
-                ->rules(['required']),
+            ->rules(['required'])
+            ->fillRecordUsing(fn (Student $record, ?string $state)
+            => $record->registration_type = Helper::getRegistrationTypeByName($state)),
             ImportColumn::make('entry_year')
                 ->rules(['nullable']),
             ImportColumn::make('entry_semester')
@@ -60,14 +62,14 @@ class StudentImporter extends Importer
             ImportColumn::make('level_id')
                 ->label('Level')
                 ->fillRecordUsing(function (Student $record, ?string $state): void {
-                    $level = Level::where('id', $state)->first();
+                    $level = Level::where('name', $state)->first();
                     $record->level_id = $level ? $level->id : null;
                 })
                 ->rules(['nullable']),
             ImportColumn::make('line_id')
                 ->label('Line')
                 ->fillRecordUsing(function (Student $record, ?string $state): void {
-                    $line = Line::where('id', $state)->first();
+                    $line = Line::where('name', $state)->first();
                     $record->line_id = $line ? $line->id : null;
                 })
                 ->rules(['nullable']),
@@ -275,8 +277,8 @@ class StudentImporter extends Importer
         $classSchool = ClassSchool::where('name', $this->data['class_school_id'])->first();
         $classSchoolId = $classSchool ? $classSchool->id : null;
 
-        $level = Level::where('id', $this->data['level_id'])->value('id');
-        $line = Line::where('id', $this->data['line_id'])->value('id');
+        $level = Level::where('name', $this->data['level_id'])->value('id');
+        $line = Line::where('name', $this->data['line_id'])->value('id');
 
         $studentData = [
             'user_id' => $user->id,
@@ -286,7 +288,7 @@ class StudentImporter extends Importer
             'nis' => $this->data['nis'],
             'nisn' => $this->data['nisn'],
             'nik' => $this->data['nik'],
-            'registration_type' => $this->data['registration_type'] ?? '1',
+            'registration_type' => Helper::getRegistrationTypeByName($this->data['registration_type']) ?? '1',
             'entry_year' => $this->data['entry_year'],
             'entry_semester' => $this->data['entry_semester'],
             'entry_class' => $this->data['entry_class'],
@@ -295,7 +297,7 @@ class StudentImporter extends Importer
             'line_id' => $line,
             'gender' => Helper::getSexByName($this->data['gender']),
             'blood_type' => $this->data['blood_type'],
-            'religion' => $this->data['religion'],
+            'religion' => Helper::getReligionByName($this->data['religion']),
             'place_of_birth' => $this->data['place_of_birth'],
             'date_of_birth' => Helper::formatDate($this->data['date_of_birth']),
             'anak_ke' => $this->data['anak_ke'],
@@ -315,7 +317,7 @@ class StudentImporter extends Importer
             'father_date_of_birth' => Helper::formatDate($this->data['father_date_of_birth']),
             'father_address' => $this->data['father_address'],
             'father_phone_number' => $this->data['father_phone_number'],
-            'father_religion' => $this->data['father_religion'],
+            'father_religion' => Helper::getReligionByName($this->data['father_religion']),
             'father_city' => $this->data['father_city'],
             'father_last_education' => $this->data['father_last_education'],
             'father_job' => $this->data['father_job'],
@@ -326,7 +328,7 @@ class StudentImporter extends Importer
             'mother_date_of_birth' => Helper::formatDate($this->data['mother_date_of_birth']),
             'mother_address' => $this->data['mother_address'],
             'mother_phone_number' => $this->data['mother_phone_number'],
-            'mother_religion' => $this->data['mother_religion'],
+            'mother_religion' => Helper::getReligionByName($this->data['mother_religion']),
             'mother_city' => $this->data['mother_city'],
             'mother_last_education' => $this->data['mother_last_education'],
             'mother_job' => $this->data['mother_job'],
@@ -337,7 +339,7 @@ class StudentImporter extends Importer
             'guardian_date_of_birth' => Helper::formatDate($this->data['guardian_date_of_birth']),
             'guardian_address' => $this->data['guardian_address'],
             'guardian_phone_number' => $this->data['guardian_phone_number'],
-            'guardian_religion' => $this->data['guardian_religion'],
+            'guardian_religion' => Helper::getReligionByName($this->data['guardian_religion']),
             'guardian_city' => $this->data['guardian_city'],
             'guardian_last_education' => $this->data['guardian_last_education'],
             'guardian_job' => $this->data['guardian_job'],
@@ -364,7 +366,7 @@ class StudentImporter extends Importer
             'student_id' => $student->id,
             'class_school_id' => $classSchoolId,
             'academic_year_id' => $classSchool->value('academic_year_id'),
-            'registration_type' => $this->data['registration_type'] ?? '1',
+            'registration_type' => Helper::getRegistrationTypeByName($this->data['registration_type']) ?? '1',
         ]);
 
         return $student;

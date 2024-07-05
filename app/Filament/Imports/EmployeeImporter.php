@@ -38,7 +38,7 @@ class EmployeeImporter extends Importer
                 })
                 ->rules(['nullable']),
             ImportColumn::make('email')
-                ->rules(['nullable', 'email']),
+                ->rules(['nullable']),
             ImportColumn::make('employee_status_id')
                 ->label('Employee Status')
                 ->fillRecordUsing(function (Employee $record, ?string $state): void {
@@ -62,22 +62,22 @@ class EmployeeImporter extends Importer
                 ->rules(['required']),
 
             ImportColumn::make('join_date')
-                ->rules(['nullable', 'date_format:Y-m-d'])
+                ->rules(['nullable'])
                 ->fillRecordUsing(function (Employee $record, ?string $state): void {
                     $record->join_date = Helper::formatDate($state);
                 }),
             ImportColumn::make('resign_date')
-                ->rules(['nullable', 'date_format:Y-m-d'])
+                ->rules(['nullable'])
                 ->fillRecordUsing(function (Employee $record, ?string $state): void {
                     $record->resign_date = Helper::formatDate($state);
                 }),
             ImportColumn::make('permanent_date')
-                ->rules(['nullable', 'date_format:Y-m-d'])
+                ->rules(['nullable'])
                 ->fillRecordUsing(function (Employee $record, ?string $state): void {
                     $record->permanent_date = Helper::formatDate($state);
                 }),
             ImportColumn::make('nik')
-                ->rules(['max:16']),
+                ->rules(['nullable', 'max:16']),
             ImportColumn::make('number_account')
                 ->rules(['max:255']),
             ImportColumn::make('number_fingerprint')
@@ -106,7 +106,7 @@ class EmployeeImporter extends Importer
             ImportColumn::make('place_of_birth')
                 ->rules(['max:50']),
             ImportColumn::make('date_of_birth')
-                ->rules(['nullable', 'date_format:Y-m-d'])
+                ->rules(['nullable'])
                 ->fillRecordUsing(function (Employee $record, ?string $state): void {
                     $record->date_of_birth = Helper::formatDate($state);
                 }),
@@ -119,9 +119,9 @@ class EmployeeImporter extends Importer
             ImportColumn::make('postal_code')
                 ->rules(['max:255']),
             ImportColumn::make('phone_number')
-                ->rules(['max:255']),
+                ->rules(['nullable', 'max:255']),
             ImportColumn::make('email_school')
-                ->rules(['email', 'max:255']),
+                ->rules(['nullable']),
             ImportColumn::make('citizen')
                 ->rules(['max:255']),
             ImportColumn::make('marital_status')

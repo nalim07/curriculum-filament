@@ -28,7 +28,8 @@ class StudentExporter extends Exporter
             ExportColumn::make('nis'),
             ExportColumn::make('nisn'),
             ExportColumn::make('nik'),
-            ExportColumn::make('registration_type'),
+            ExportColumn::make('registration_type')
+                ->formatStateUsing(fn (?string $state): string => Helper::getRegistrationType($state ?? '')),
             ExportColumn::make('entry_year'),
             ExportColumn::make('entry_semester'),
             ExportColumn::make('entry_class'),
@@ -36,11 +37,16 @@ class StudentExporter extends Exporter
                 ->label('Class School')
                 ->formatStateUsing(fn (?Model $record): string => $record->classSchool?->name ?? ''),
             ExportColumn::make('level_id')
-                ->label('Level'),
+                ->label('Level')
+                ->formatStateUsing(fn (?Model $record): string => $record->level?->name ?? ''),
             ExportColumn::make('line_id')
-                ->label('Line'),
+                ->label('Line')
+                ->formatStateUsing(fn (?Model $record): string => $record->line?->name ?? ''),
             ExportColumn::make('gender')
                 ->formatStateUsing(fn (?string $state): string => Helper::getSex($state ?? '')),
+            ExportColumn::make('blood_type'),
+            ExportColumn::make('religion')
+                ->formatStateUsing(fn (?string $state): string => Helper::getReligion($state ?? '')),
             ExportColumn::make('blood_type'),
             ExportColumn::make('religion'),
             ExportColumn::make('place_of_birth'),
@@ -62,7 +68,8 @@ class StudentExporter extends Exporter
             ExportColumn::make('father_date_of_birth'),
             ExportColumn::make('father_address'),
             ExportColumn::make('father_phone_number'),
-            ExportColumn::make('father_religion'),
+            ExportColumn::make('father_religion')
+                ->formatStateUsing(fn (?string $state): string => Helper::getReligion($state ?? '')),
             ExportColumn::make('father_city'),
             ExportColumn::make('father_last_education'),
             ExportColumn::make('father_job'),
@@ -73,7 +80,8 @@ class StudentExporter extends Exporter
             ExportColumn::make('mother_date_of_birth'),
             ExportColumn::make('mother_address'),
             ExportColumn::make('mother_phone_number'),
-            ExportColumn::make('mother_religion'),
+            ExportColumn::make('mother_religion')
+                ->formatStateUsing(fn (?string $state): string => Helper::getReligion($state ?? '')),
             ExportColumn::make('mother_city'),
             ExportColumn::make('mother_last_education'),
             ExportColumn::make('mother_job'),
@@ -84,7 +92,8 @@ class StudentExporter extends Exporter
             ExportColumn::make('guardian_date_of_birth'),
             ExportColumn::make('guardian_address'),
             ExportColumn::make('guardian_phone_number'),
-            ExportColumn::make('guardian_religion'),
+            ExportColumn::make('guardian_religion')
+                ->formatStateUsing(fn (?string $state): string => Helper::getReligion($state ?? '')),
             ExportColumn::make('guardian_city'),
             ExportColumn::make('guardian_last_education'),
             ExportColumn::make('guardian_job'),
