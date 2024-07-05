@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->string('fullname', 100);
             $table->string('username', 100);
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('nis', 10);
             $table->string('nisn', 10)->nullable();
             $table->string('nik', 16)->nullable();
@@ -47,7 +47,7 @@ return new class extends Migration
             $table->unsignedInteger('postal_code')->nullable();
             $table->unsignedInteger('distance_home_to_school')->nullable();
             $table->string('email_parent')->nullable();
-            $table->string('phone_number', 13)->nullable();
+            $table->string('phone_number')->nullable();
             $table->enum('living_together', ['1', '2'])->nullable(); // 1 parents, 2 other
             $table->string('transportation')->nullable();
 
@@ -58,7 +58,7 @@ return new class extends Migration
             $table->string('father_place_of_birth', 100)->nullable();
             $table->date('father_date_of_birth')->nullable();
             $table->string('father_address', 100)->nullable();
-            $table->string('father_phone_number', 13)->nullable();
+            $table->string('father_phone_number')->nullable();
             $table->enum('father_religion', ['1', '2', '3', '4', '5', '6', '7'])->nullable();
             $table->string('father_city', 100)->nullable();
             $table->string('father_last_education', 25)->nullable();
@@ -70,7 +70,7 @@ return new class extends Migration
             $table->string('mother_place_of_birth', 100)->nullable();
             $table->date('mother_date_of_birth')->nullable();
             $table->string('mother_address', 100)->nullable();
-            $table->string('mother_phone_number', 13)->nullable();
+            $table->string('mother_phone_number')->nullable();
             $table->enum('mother_religion', ['1', '2', '3', '4', '5', '6', '7'])->nullable();
             $table->string('mother_city', 100)->nullable();
             $table->string('mother_last_education', 25)->nullable();
@@ -82,7 +82,7 @@ return new class extends Migration
             $table->string('guardian_place_of_birth', 100)->nullable();
             $table->date('guardian_date_of_birth')->nullable();
             $table->string('guardian_address', 100)->nullable();
-            $table->string('guardian_phone_number', 13)->nullable();
+            $table->string('guardian_phone_number')->nullable();
             $table->enum('guardian_religion', ['1', '2', '3', '4', '5', '6', '7'])->nullable();
             $table->string('guardian_city', 100)->nullable();
             $table->string('guardian_last_education', 25)->nullable();

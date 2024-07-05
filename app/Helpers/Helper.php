@@ -15,18 +15,23 @@ class Helper
             return null;
         }
 
-        // Check if the date is already in the desired format
-        if (Carbon::createFromFormat($format, $date)->format($format) === $date) {
-            return $date;
-        }
-
         try {
-            // Try to parse as d-m-Y
-            $date = Carbon::createFromFormat('d-m-Y', $date)->format($format);
-            return $date;
+            // Check if the date is already in the desired format
+            $parsedDate = \Carbon\Carbon::createFromFormat($format, $date);
+            if ($parsedDate && $parsedDate->format($format) === $date) {
+                return $date;
+            }
+
+            // Try to parse as m/d/Y
+            $parsedDate = \Carbon\Carbon::createFromFormat('m/d/Y', $date);
+            if ($parsedDate) {
+                return $parsedDate->format($format);
+            }
         } catch (\Exception $e) {
             return null;
         }
+
+        return null;
     }
 
     public static function getSex($id)
@@ -35,7 +40,7 @@ class Helper
             return 'Unknown';
         }
 
-        return $id == 1 ? 'Male' : 'Female';
+        return $id == 1 ? 'MALE' : 'FEMALE';
     }
 
     public static function getReligion($id)
@@ -75,9 +80,9 @@ class Helper
     // Helper methods for converting names to IDs
     public static function getSexByName($name)
     {
-        if ($name == 'Male') {
+        if ($name == 'MALE') {
             return '1';
-        } elseif ($name == 'Female') {
+        } elseif ($name == 'FEMALE') {
             return '2';
         } else {
             return null;
@@ -132,7 +137,6 @@ class Helper
         }
     }
 
-
     public static function getRegistrationTypeByName($name)
     {
         if ($name == 'New Student') {
@@ -141,6 +145,25 @@ class Helper
             return '2';
         }
     }
+
+
+    public static function getRegistrationTypeMemberClassSchoolByName($id)
+    {
+        if ($id == 1) {
+            return 'New Student';
+        } elseif ($id == 2) {
+            return 'Transfer Student';
+        } elseif ($id == 3) {
+            return 'Promotion';
+        } elseif ($id == 4) {
+            return 'Continuation';
+        } elseif ($id == 5) {
+            return 'Re-Enrollment';
+        }
+    }
+
+
+
 
     public static function getSlotType($type)
     {
