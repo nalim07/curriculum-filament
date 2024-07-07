@@ -2,12 +2,13 @@
 
 namespace App\Filament\Imports;
 
-use App\Models\User;
 use App\Helpers\Helper;
 use App\Models\Employee;
 use App\Models\EmployeeUnit;
 use App\Models\EmployeeStatus;
 use Illuminate\Support\Carbon;
+use App\Jobs\ImportEmployeeJob;
+use App\Jobs\ImportEmployeesJob;
 use App\Models\EmployeePosition;
 use Spatie\Permission\Models\Role;
 use Filament\Actions\Imports\Importer;
@@ -170,81 +171,11 @@ class EmployeeImporter extends Importer
         return $normalizedData;
     }
 
-
     public function resolveRecord(): ?Employee
     {
-        $this->data = $this->normalizeData($this->data);
-
-        // Create or update the employee record
-        $employee = Employee::firstOrNew([
-            'employee_code' => $this->data['employee_code'],
-        ]);
-
-        // user
-        $user = User::firstOrNew([
-            'username' => $this->data['employee_code'],
-            'email' => $this->data['email'],
-            'status' => true
-        ]);
-        $user->password = bcrypt($this->data['employee_code']);
-        $user->save();
-
-        // assign role
-        if (isset($this->data['roles'])) {
-            $roleNames = explode(',', $this->data['roles']);
-            // remove whitespace
-            $roleNames = array_map('trim', $roleNames);
-            $user->assignRole($roleNames);
-        }
-
-        $employeeStatus = EmployeeStatus::where('name', $this->data['employee_status_id'])->value('id');
-        $employeeUnit = EmployeeUnit::where('name', $this->data['employee_unit_id'])->value('id');
-        $employeePosition = EmployeePosition::where('name', $this->data['employee_position_id'])->value('id');
-
-        // Update the employee attributes
-        $employee->fill([
-            'user_id' => $user->id,
-            'fullname' => $this->data['fullname'],
-            'email' => $this->data['email'],
-            'employee_status_id' => $employeeStatus,
-            'employee_unit_id' => $employeeUnit,
-            'employee_position_id' => $employeePosition,
-            'join_date' => $this->data['join_date'],
-            'resign_date' => $this->data['resign_date'],
-            'permanent_date' => $this->data['permanent_date'],
-            'nik' => $this->data['nik'],
-            'number_account' => $this->data['number_account'],
-            'number_fingerprint' => $this->data['number_fingerprint'],
-            'number_npwp' => $this->data['number_npwp'],
-            'name_npwp' => $this->data['name_npwp'],
-            'number_bpjs_ketenagakerjaan' => $this->data['number_bpjs_ketenagakerjaan'],
-            'iuran_bpjs_ketenagakerjaan' => $this->data['iuran_bpjs_ketenagakerjaan'],
-            'number_bpjs_yayasan' => $this->data['number_bpjs_yayasan'],
-            'number_bpjs_pribadi' => $this->data['number_bpjs_pribadi'],
-            'gender' => Helper::getSexByName($this->data['gender']),
-            'religion' => Helper::getReligionByName($this->data['religion']),
-            'place_of_birth' => $this->data['place_of_birth'],
-            'date_of_birth' => $this->data['date_of_birth'],
-            'address' => $this->data['address'],
-            'address_now' => $this->data['address_now'],
-            'city' => $this->data['city'],
-            'postal_code' => $this->data['postal_code'],
-            'phone_number' => $this->data['phone_number'],
-            'email_school' => $this->data['email_school'],
-            'citizen' => $this->data['citizen'],
-            'marital_status' => Helper::getMaritalStatusByName($this->data['marital_status']),
-            'partner_name' => $this->data['partner_name'],
-            'number_of_childern' => $this->data['number_of_childern'],
-            'notes' => $this->data['notes'],
-        ]);
-
-        // Save the employee record
-        $employee->save();
-
-        return $employee;
+        ImportEmployeesJob::dispatch($this->data);
+        return null;
     }
-
-
 
     public static function getCompletedNotificationBody(Import $import): string
     {

@@ -259,25 +259,38 @@ class UserResource extends Resource
                     ->importer(UserImporter::class),
             ])
             ->columns([
-                SpatieMediaLibraryImageColumn::make('media')->label('Avatar')
-                    ->collection('avatars')
-                    ->circular()
-                    ->wrap(),
-                Tables\Columns\TextColumn::make('fullname')->label('Full Name')
-                    ->getStateUsing(function (Model $record) {
-                        if ($record->student) {
-                            return $record->student->fullname ?? '';
-                        } elseif ($record->employee) {
-                            return $record->employee->fullname ?? '';
-                        } else {
-                            return '';
-                        }
+                // SpatieMediaLibraryImageColumn::make('media')->label('Avatar')
+                //     ->collection('avatars')
+                //     ->circular()
+                //     ->wrap(),
+                TextColumn::make('student.fullname')
+                    ->label('Student Full Name')
+                    ->searchable()
+                    ->getStateUsing(function (?Model $record) {
+                        return $record->student->fullname ?? '-';
                     })
-                    ->searchable(),
+                    ->extraAttributes(function (?Model $record) {
+                        return [
+                            'style' => $record && $record->student ? '' : 'display: flex; align-items: center; justify-content: center;'
+                        ];
+                    })
+                    ->hidden(fn (?Model $record) => $record && $record->employee !== null),
+
+                TextColumn::make('employee.fullname')
+                    ->label('Employee Full Name')
+                    ->searchable()
+                    ->getStateUsing(function (?Model $record) {
+                        return $record->employee->fullname ?? '-';
+                    })
+                    ->extraAttributes(function (?Model $record) {
+                        return [
+                            'style' => $record && $record->employee ? '' : 'display: flex; align-items: center; justify-content: center;'
+                        ];
+                    })
+                    ->hidden(fn (?Model $record) => $record && $record->student !== null),
                 Tables\Columns\TextColumn::make('username')->label('Username')
                     ->copyable()
                     ->copyableState(fn (string $state): string => "Color: {$state}")
-                    ->description(fn (Model $record) => $record->fullname ?? $record->fullname ?? '')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('roles.name')->label('Role')
                     // ->formatStateUsing(fn ($state): string => Str::headline($state))
@@ -289,7 +302,8 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email_verified_at')->label('Verified at')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

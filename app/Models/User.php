@@ -67,6 +67,17 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail, Has
         return $this->username;
     }
 
+    public function getFullnameAttribute()
+    {
+        if ($this->employee) {
+            return $this->employee->fullname ?? '';
+        } elseif ($this->student) {
+            return $this->student->fullname ?? '';
+        } else {
+            return '';
+        }
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
         // if ($panel->getId() === 'admin') {

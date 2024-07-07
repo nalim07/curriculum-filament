@@ -27,23 +27,23 @@ class ListUsers extends ListRecords
         return static::$resource::getWidgets();
     }
 
-    public function getTabs(): array
-    {
-        // Ambil semua peran dari database
-        $roles = Role::all();
+    // public function getTabs(): array
+    // {
+    //     // Ambil semua peran dari database
+    //     $roles = Role::all();
 
-        // Inisialisasi array tab
-        $tabs = [
-            null => Tab::make('All'),
-        ];
+    //     // Inisialisasi array tab
+    //     $tabs = [
+    //         null => Tab::make('All'),
+    //     ];
 
-        // Iterasi melalui setiap peran dan buat tab dinamis
-        foreach ($roles as $role) {
-            $tabs[$role->name] = Tab::make()->query(fn ($query) => $query->with('roles')->whereRelation('roles', 'name', '=', $role->name));
-        }
+    //     // Iterasi melalui setiap peran dan buat tab dinamis
+    //     foreach ($roles as $role) {
+    //         $tabs[$role->name] = Tab::make()->query(fn ($query) => $query->with('roles')->whereRelation('roles', 'name', '=', $role->name));
+    //     }
 
-        return $tabs;
-    }
+    //     return $tabs;
+    // }
 
     protected function getTableQuery(): Builder
     {
