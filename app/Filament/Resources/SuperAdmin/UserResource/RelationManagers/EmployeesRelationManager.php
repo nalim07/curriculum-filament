@@ -265,7 +265,7 @@ class EmployeesRelationManager extends RelationManager
                                         Forms\Components\FileUpload::make('photo')
                                             ->label('Pas Photo')
                                             ->image()
-                                            ->directory('employee/photo')
+                                            ->directory('employee/photos')
                                             ->visibility('public')
                                             ->moveFiles()
                                             ->nullable()

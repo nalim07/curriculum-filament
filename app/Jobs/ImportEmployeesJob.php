@@ -105,6 +105,12 @@ class ImportEmployeesJob implements ShouldQueue
             'partner_name' => $this->data['partner_name'],
             'number_of_childern' => $this->data['number_of_childern'],
             'notes' => $this->data['notes'],
+            'photo' => $this->data['photo'],
+            'signature' => $this->data['signature'],
+            'photo_ktp' => $this->data['photo_ktp'],
+            'photo_npwp' => $this->data['photo_npwp'],
+            'photo_kk' => $this->data['photo_kk'],
+            'other_document' => $this->data['other_document'],
         ]);
 
         $employee->save();
