@@ -144,6 +144,11 @@ class ImportStudentsJob implements ShouldQueue
             'old_school_address' => $this->data['old_school_address'],
             'no_sttb' => $this->data['no_sttb'],
             'nem' => $this->data['nem'],
+
+            'photo' => $this->data['photo'],
+            'photo_document_health' => $this->data['photo_document_health'],
+            'photo_list_questions' => $this->data['photo_list_questions'],
+            'photo_document_old_school' => $this->data['photo_document_old_school'],
         ];
 
         $student = Student::updateOrCreate(

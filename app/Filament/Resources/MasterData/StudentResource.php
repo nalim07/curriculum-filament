@@ -126,8 +126,7 @@ class StudentResource extends Resource
                     Forms\Components\TextInput::make('nis')
                         ->label('NIS')
                         ->required()
-                        ->numeric()
-                        ->minLength(10),
+                        ->numeric(),
                     Forms\Components\TextInput::make('nisn')
                         ->label('NISN')
                         ->maxLength(10),
@@ -138,7 +137,6 @@ class StudentResource extends Resource
                 Grid::make(2)->schema([
                     Forms\Components\TextInput::make('email')
                         ->email()
-                        ->required()
                         ->maxLength(255),
                     Forms\Components\TextInput::make('fullname')
                         ->required()
