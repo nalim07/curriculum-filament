@@ -68,7 +68,8 @@ class MyProfileExtended extends MyProfileComponent
                         ->disabled()
                         ->required(),
                 ]),
-                Toggle::make('status'),
+                Toggle::make('status')
+                    ->hidden(),
             ])
             ->operation('edit')
             ->model($this->getUser())
