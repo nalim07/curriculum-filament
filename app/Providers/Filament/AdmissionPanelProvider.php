@@ -12,6 +12,7 @@ use App\Filament\Pages\Auth\Login;
 use App\Livewire\MyProfileExtended;
 use Illuminate\Support\Facades\Storage;
 use Filament\Http\Middleware\Authenticate;
+use App\Filament\Widgets\AcademicYearWidget;
 use App\Filament\Pages\Auth\EmailVerification;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -65,7 +66,10 @@ class AdmissionPanelProvider extends PanelProvider
             ->spa()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverWidgets(in: app_path('Filament/App/Widgets'), for: 'App\\Filament\\App\\Widgets')
-            ->widgets([Widgets\AccountWidget::class, Widgets\FilamentInfoWidget::class])
+            ->widgets([
+                Widgets\AccountWidget::class,
+                AcademicYearWidget::class,
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

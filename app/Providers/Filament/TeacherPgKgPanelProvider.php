@@ -7,7 +7,7 @@ use Filament\Panel;
 use App\Models\User;
 use Filament\Widgets;
 use Filament\PanelProvider;
-use Filament\Pages\Auth\Login;
+use App\Filament\Pages\Auth\Login;
 use App\Settings\GeneralSettings;
 use Filament\Support\Colors\Color;
 use Hasnayeen\Themes\ThemesPlugin;
@@ -18,6 +18,7 @@ use Filament\Navigation\NavigationGroup;
 use Filament\Widgets\FilamentInfoWidget;
 use Filament\Http\Middleware\Authenticate;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
+use App\Filament\Widgets\AcademicYearWidget;
 use App\Http\Middleware\CheckPanelPermission;
 use App\Filament\Pages\Auth\EmailVerification;
 use Hasnayeen\Themes\Http\Middleware\SetTheme;
@@ -77,7 +78,10 @@ class TeacherPgKgPanelProvider extends PanelProvider
             ->spa()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverWidgets(in: app_path('Filament/App/Widgets'), for: 'App\\Filament\\App\\Widgets')
-            ->widgets([Widgets\AccountWidget::class, Widgets\FilamentInfoWidget::class])
+            ->widgets([
+                Widgets\AccountWidget::class,
+                AcademicYearWidget::class,
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

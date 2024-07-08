@@ -23,6 +23,7 @@ use Filament\Http\Middleware\Authenticate;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use App\Filament\Pages\Teacher\Assessments;
 use App\Filament\Pages\Teacher\PenilaianTk;
+use App\Filament\Widgets\AcademicYearWidget;
 use App\Http\Middleware\CheckPanelPermission;
 use App\Filament\Pages\Auth\EmailVerification;
 use Hasnayeen\Themes\Http\Middleware\SetTheme;
@@ -80,7 +81,10 @@ class StudentPanelProvider extends PanelProvider
             ->spa()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverWidgets(in: app_path('Filament/App/Widgets'), for: 'App\\Filament\\App\\Widgets')
-            ->widgets([Widgets\AccountWidget::class, Widgets\FilamentInfoWidget::class])
+            ->widgets([
+                Widgets\AccountWidget::class,
+                AcademicYearWidget::class,
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

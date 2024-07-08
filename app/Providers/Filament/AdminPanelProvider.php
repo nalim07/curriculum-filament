@@ -23,6 +23,7 @@ use App\Filament\Widgets\AccessLogWidget;
 use Filament\Http\Middleware\Authenticate;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use App\Filament\Pages\Tenancy\RegisterTeam;
+use App\Filament\Widgets\AcademicYearWidget;
 use App\Http\Middleware\CheckPanelPermission;
 use App\Filament\Pages\Auth\EmailVerification;
 use Hasnayeen\Themes\Http\Middleware\SetTheme;
@@ -91,13 +92,14 @@ class AdminPanelProvider extends PanelProvider
             ->spa()
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                AccessLogWidget::class,
-                Widgets\AccountWidget::class,
-                StatsStudentOverviewWidget::class,
+                AccountWidget::class,
+                AcademicYearWidget::class,
                 TotalStudentsChart::class,
                 TotalEmployeesChart::class,
+                StatsStudentOverviewWidget::class,
                 TotalUserByRolesChart::class,
                 TotalMemberClassSchoolInClassSchoolChart::class,
+                AccessLogWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

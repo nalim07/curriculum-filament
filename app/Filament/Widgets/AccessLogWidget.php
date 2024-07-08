@@ -11,7 +11,7 @@ use Spatie\Activitylog\Models\Activity;  // Confirm this matches your installed 
 
 class AccessLogWidget extends TableWidget
 {
-    protected static ?int $sort = 7;
+    protected static ?int $sort = 5;
     protected static ?string $heading = 'Access Log';
 
     protected function getTableQuery(): \Illuminate\Database\Eloquent\Builder

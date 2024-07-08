@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Storage;
 use Filament\Widgets\FilamentInfoWidget;
 use Filament\Http\Middleware\Authenticate;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
+use App\Filament\Widgets\AcademicYearWidget;
 use App\Filament\Pages\Auth\EmailVerification;
 use Hasnayeen\Themes\Http\Middleware\SetTheme;
 use Illuminate\Session\Middleware\StartSession;
@@ -32,7 +33,11 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Filament\Pages\Auth\PasswordReset\RequestPasswordReset;
+use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Croustibat\FilamentJobsMonitor\FilamentJobsMonitorPlugin;
+use App\Filament\Resources\MasterData\StudentResource\Widgets\TotalStudentsChart;
+use App\Filament\Resources\MasterData\ClassSchoolResource\Widgets\TotalMemberClassSchoolInClassSchoolChart;
 
 class CurriculumPanelProvider extends PanelProvider
 {
@@ -70,7 +75,12 @@ class CurriculumPanelProvider extends PanelProvider
             ->spa()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverWidgets(in: app_path('Filament/App/Widgets'), for: 'App\\Filament\\App\\Widgets')
-            ->widgets([Widgets\AccountWidget::class, Widgets\FilamentInfoWidget::class])
+            ->widgets([
+                Widgets\AccountWidget::class,
+                AcademicYearWidget::class,
+                TotalMemberClassSchoolInClassSchoolChart::class,
+                TotalStudentsChart::class,
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -110,6 +120,8 @@ class CurriculumPanelProvider extends PanelProvider
                         'personal_info' => MyProfileExtended::class,
                     ]),
                 \Hasnayeen\Themes\ThemesPlugin::make()->canViewThemesPage($canViewThemes),
+                FilamentApexChartsPlugin::make(),
+                FilamentJobsMonitorPlugin::make(),
             ]);
     }
 }
