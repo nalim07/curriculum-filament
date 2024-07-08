@@ -35,7 +35,15 @@ class MemberClassSchoolsRelationManager extends RelationManager
                 Forms\Components\Hidden::make('academic_year_id')->default(AcademicYear::where('status', 1)->first()->id),
                 MultiSelectTwoSides::make('student_id')
                     ->options(
-                        Student::doesntHave('classSchool')
+                        Student::whereHas('classSchool', function ($query) {
+                            $query->where(function ($query) {
+                                $query->where('academic_year_id', Helper::getActiveAcademicYearId())
+                                    ->whereNull('class_school_id');
+                            })->orWhere(function ($query) {
+                                $query->where('academic_year_id', '!=', Helper::getActiveAcademicYearId())
+                                    ->whereNotNull('class_school_id');
+                            });
+                        })
                             ->with('classSchool')
                             ->get()
                             ->mapWithKeys(function ($student) {
