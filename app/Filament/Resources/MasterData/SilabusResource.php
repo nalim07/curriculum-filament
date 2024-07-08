@@ -16,6 +16,7 @@ use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\MasterData\SilabusResource\Pages;
+use Filament\Tables\Enums\FiltersLayout;
 
 class SilabusResource extends Resource
 {
@@ -132,11 +133,63 @@ class SilabusResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $activeAcademicYearId = Helper::getActiveAcademicYearId();
+
         return $table
             ->columns([Tables\Columns\TextColumn::make('classSchool.name')->sortable(), Tables\Columns\TextColumn::make('subject.name')->numeric()->sortable(), Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true), Tables\Columns\TextColumn::make('updated_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true)])
             ->filters([
-                //
-            ])
+                Tables\Filters\SelectFilter::make('class_school_id')
+                    ->label('Class School')
+                    ->relationship('classSchool', 'name', function ($query) {
+                        if (auth()->user()->hasRole('super_admin')) {
+                            return $query->where('academic_year_id', Helper::getActiveAcademicYearId());
+                        } else {
+                            $user = auth()->user();
+                            if ($user && $user->employee && $user->employee->teacher) {
+                                $teacherId = $user->employee->teacher->id;
+                                return $query->where('teacher_id', $teacherId)->where('academic_year_id', Helper::getActiveAcademicYearId());
+                            }
+                            return $query->where('academic_year_id', Helper::getActiveAcademicYearId());
+                        }
+                    })
+                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
+                    ->searchable()
+                    ->preload()
+                    ->default(function () {
+                        $user = auth()->user();
+                        $teacherId = $user->employee->teacher->id;
+
+                        // Fetch the first record based on the same query logic used in the relationship
+                        $query = auth()->user()->hasRole('super_admin') ? ClassSchool::where('academic_year_id', Helper::getActiveAcademicYearId())->first() : ClassSchool::where('teacher_id', $teacherId)->where('academic_year_id', Helper::getActiveAcademicYearId())->first();
+
+                        return $query ? $query->id : null;
+                    }),
+                Tables\Filters\SelectFilter::make('subject_id')
+                    ->label('Subject')
+                    ->relationship('subject', 'name', function ($query) {
+                        if (auth()->user()->hasRole('super_admin')) {
+                            return $query->where('academic_year_id', Helper::getActiveAcademicYearId());
+                        } else {
+                            $user = auth()->user();
+                            if ($user && $user->employee && $user->employee->teacher) {
+                                return $query->where('academic_year_id', Helper::getActiveAcademicYearId());
+                            }
+                            return $query->where('academic_year_id', Helper::getActiveAcademicYearId());
+                        }
+                    })
+                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
+                    ->searchable()
+                    ->preload()
+                    ->default(function () {
+                        $user = auth()->user();
+                        $teacherId = $user->employee->teacher->id;
+
+                        $query = auth()->user()->hasRole('super_admin') ? Subject::where('academic_year_id', Helper::getActiveAcademicYearId())->first() : Subject::where('academic_year_id', Helper::getActiveAcademicYearId())->first();
+
+                        return $query ? $query->id : null;
+                    }),
+            ], layout: FiltersLayout::AboveContent)
+            ->filtersFormColumns(2)
             ->actions([Tables\Actions\ViewAction::make(), Tables\Actions\EditAction::make()])
             ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
     }
