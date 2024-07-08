@@ -12,6 +12,7 @@ use Mockery\Matcher\Not;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -34,6 +35,11 @@ class LevelResource extends Resource
             ->schema([
 
                 Forms\Components\Select::make('semester_id')
+                    ->disabled(function ($record) {
+                        if ($record->school_id == 1) {
+                            return true;
+                        }
+                    })
                     ->relationship('semester', 'semester')
                     ->searchable()
                     ->preload()
@@ -84,6 +90,11 @@ class LevelResource extends Resource
                     ->label('Level Name')
                     ->searchable(),
                 Tables\Columns\SelectColumn::make('semester_id')
+                    ->disabled(function ($record) {
+                        if ($record->school_id == 1) {
+                            return true;
+                        }
+                    })
                     ->label('Semester')
                     ->options([
                         '1' => '1',

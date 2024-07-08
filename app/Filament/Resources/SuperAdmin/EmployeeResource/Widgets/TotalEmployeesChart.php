@@ -9,6 +9,7 @@ use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 class TotalEmployeesChart extends ApexChartWidget
 {
     protected static ?string $chartId = 'totalEmployeesChart';
+    protected static ?int $sort = 2;
     protected static ?string $heading = 'Total Employee & Teacher';
 
     protected function getOptions(): array

@@ -8,26 +8,10 @@ use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
 class TotalStudentsChart extends ApexChartWidget
 {
-    /**
-     * Chart Id
-     *
-     * @var string
-     */
     protected static ?string $chartId = 'studentsChart';
-
-    /**
-     * Widget Title
-     *
-     * @var string|null
-     */
+    protected static ?int $sort = 1;
     protected static ?string $heading = 'Total Student';
 
-    /**
-     * Chart options (series, labels, types, size, animations...)
-     * https://apexcharts.com/docs/options
-     *
-     * @return array
-     */
     protected function getOptions(): array
     {
         $data = $this->getStudentCountsByLevel();
@@ -45,31 +29,31 @@ class TotalStudentsChart extends ApexChartWidget
                 'horizontalAlign' => 'center',
                 'labels' => [
                     'colors' => ['gray'],
-                    'useSeriesColors' => false
+                    'useSeriesColors' => false,
                 ],
                 'markers' => [
                     'width' => 12,
-                    'height' => 12
+                    'height' => 12,
                 ],
                 'fontFamily' => 'inherit',
                 'itemMargin' => [
                     'horizontal' => 10,
-                    'vertical' => 5
-                ]
+                    'vertical' => 5,
+                ],
             ],
             'responsive' => [
                 [
                     'breakpoint' => 480,
                     'options' => [
                         'chart' => [
-                            'width' => 300
+                            'width' => 300,
                         ],
                         'legend' => [
-                            'position' => 'bottom'
-                        ]
-                    ]
-                ]
-            ]
+                            'position' => 'bottom',
+                        ],
+                    ],
+                ],
+            ],
         ];
     }
 

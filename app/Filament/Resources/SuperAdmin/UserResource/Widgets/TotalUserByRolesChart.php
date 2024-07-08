@@ -10,6 +10,7 @@ use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 class TotalUserByRolesChart extends ApexChartWidget
 {
     protected static ?string $chartId = 'totalUserByRolesChart';
+    protected static ?int $sort = 4;
     protected static ?string $heading = 'Total User By Roles';
 
     protected function getOptions(): array

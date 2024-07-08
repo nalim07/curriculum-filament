@@ -18,6 +18,7 @@ use Tables\Actions\ViewBulkAction;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Model;
+use Filament\Tables\Enums\FiltersLayout;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\MasterData\ClassSchoolResource\Pages;
@@ -116,7 +117,27 @@ class ClassSchoolResource extends Resource
             //         $query->where('status', true);
             //     });
             // })
-            ->filters([])
+            ->filters([
+                Tables\Filters\SelectFilter::make('level_id')
+                    ->label('Level')
+                    ->relationship('level', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->multiple(),
+                Tables\Filters\SelectFilter::make('line_id')
+                    ->label('Line')
+                    ->relationship('line', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->multiple(),
+                Tables\Filters\SelectFilter::make('teacher_id')
+                    ->label('Homeroom Teacher')
+                    ->relationship('teacher.employee', 'fullname')
+                    ->searchable()
+                    ->preload()
+                    ->multiple(),
+            ], layout: FiltersLayout::AboveContent)
+            ->filtersFormColumns(3)
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
