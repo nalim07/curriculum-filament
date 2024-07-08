@@ -46,7 +46,9 @@ class LearningOutcomeResource extends Resource
                 Select::make('learning_data_id')
                     ->relationship('learningData', 'id', function ($query) {
                         if (auth()->user()->hasRole('super_admin')) {
-                            return $query->with('subject')->where('academic_year_id', Helper::getActiveAcademicYearId());
+                            return $query->with('subject')->whereHas('classSchool', function (Builder $query) {
+                                $query->where('academic_year_id', Helper::getActiveAcademicYearId());
+                            });
                         } else {
                             $user = auth()->user();
                             if ($user && $user->employee && $user->employee->teacher) {
@@ -58,7 +60,9 @@ class LearningOutcomeResource extends Resource
                                     })
                                     ->where('teacher_id', $teacherId);
                             }
-                            return $query->with('subject')->where('academic_year_id', Helper::getActiveAcademicYearId());
+                            return $query->with('subject')->whereHas('classSchool', function (Builder $query) {
+                                $query->where('academic_year_id', Helper::getActiveAcademicYearId());
+                            });
                         }
                     })
                     ->getOptionLabelFromRecordUsing(fn ($record) => $record->subject->name . ' - ' . $record->classSchool->name)
@@ -122,7 +126,9 @@ class LearningOutcomeResource extends Resource
                                         })
                                         ->where('teacher_id', $teacherId);
                                 }
-                                return $query->with('subject')->where('academic_year_id', Helper::getActiveAcademicYearId());
+                                return $query->with('subject')->whereHas('classSchool', function (Builder $query) {
+                                    $query->where('academic_year_id', Helper::getActiveAcademicYearId());
+                                });
                             }
                         })
                         ->getOptionLabelFromRecordUsing(fn ($record) => $record->subject->name . ' - ' . $record->classSchool->name)
