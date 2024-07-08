@@ -116,9 +116,7 @@ class ClassSchoolResource extends Resource
             //         $query->where('status', true);
             //     });
             // })
-            ->filters([
-                //
-            ])
+            ->filters([])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
@@ -140,7 +138,7 @@ class ClassSchoolResource extends Resource
     {
         return parent::getEloquentQuery()->whereHas('academicYear', function (Builder $query) {
             $query->where('status', true);
-        });
+        })->orderBy('level_id', 'asc');
     }
 
     public static function getRecord($key): Model
