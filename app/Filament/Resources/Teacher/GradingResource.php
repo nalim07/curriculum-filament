@@ -207,31 +207,33 @@ class GradingResource extends Resource
                         ->label('Learning Data')
                         ->relationship('planFormatifValue.learningData', 'id', function ($query) {
                             if (auth()->user()->hasRole('super_admin')) {
-                                return $query->with('subject')->whereHas('classSchool', function (Builder $query) {
+                                return $query->with(['subject', 'classSchool'])->whereHas('classSchool', function (Builder $query) {
                                     $query->where('academic_year_id', Helper::getActiveAcademicYearId());
                                 });
                             } else {
                                 $user = auth()->user();
                                 if ($user && $user->employee && $user->employee->teacher) {
                                     $teacherId = $user->employee->teacher->id;
-                                    return $query->with('subject')
+                                    return $query->with(['subject', 'classSchool'])
                                         ->whereHas('classSchool', function (Builder $query) {
                                             $query->where('academic_year_id', Helper::getActiveAcademicYearId());
                                         })->where('teacher_id', $teacherId);
                                 }
-                                return $query->with('subject');
+                                return $query->with(['subject', 'classSchool']);
                             }
                         })
-                        ->getOptionLabelFromRecordUsing(fn ($record) => $record->subject->name . ' - ' . $record->classSchool->name)
+                        ->getOptionLabelFromRecordUsing(function ($record) {
+                            return $record->subject->name . ' - ' . $record->classSchool->name;
+                        })
                         ->searchable()
                         ->preload()
                         ->default(function () {
                             $query = auth()->user()->hasRole('super_admin') ?
                                 PlanFormatifValue::with(['learningData' => function ($query) {
-                                    $query->with('subject')->first();
+                                    $query->with(['subject', 'classSchool'])->first();
                                 }])->first() :
                                 PlanFormatifValue::whereHas('learningData', function (Builder $query) {
-                                    $query->with('subject')
+                                    $query->with(['subject', 'classSchool'])
                                         ->whereHas('classSchool', function (Builder $query) {
                                             $query->where('academic_year_id', Helper::getActiveAcademicYearId());
                                         })
@@ -240,7 +242,6 @@ class GradingResource extends Resource
 
                             return $query ? $query->learningData->id : null;
                         }),
-
 
                     Tables\Filters\SelectFilter::make('semester_id')
                         ->label('Semester')

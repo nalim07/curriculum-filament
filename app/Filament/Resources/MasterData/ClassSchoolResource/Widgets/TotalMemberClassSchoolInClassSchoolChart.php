@@ -10,6 +10,7 @@ class TotalMemberClassSchoolInClassSchoolChart extends ApexChartWidget
     protected static ?string $chartId = 'TotalMemberClassSchoolInClassSchoolChart';
     protected static ?string $heading = 'Total Members in Each Class School';
     protected static ?int $sort = 3;
+    protected int | string | array $columnSpan = 'full';
 
     protected function getOptions(): array
     {

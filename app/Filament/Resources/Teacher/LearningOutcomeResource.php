@@ -80,7 +80,23 @@ class LearningOutcomeResource extends Resource
                     }),
                 Hidden::make('semester_id'),
                 Repeater::make('learning_outcomes')
-                    ->schema([TextInput::make('code')->required()->maxLength(10)->columnSpan(2), Textarea::make('name')->label('Learning Outcome')->required()->maxLength(255), Textarea::make('summary')->required()->maxLength(150)])
+                    ->schema([
+                        TextInput::make('code')
+                            ->required()
+                            ->default(function () {
+                                return 'LO' . strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 4));
+                            })
+                            ->helperText('this code generated automatically')
+                            ->readonly()
+                            ->columnSpan(2),
+                        Textarea::make('name')
+                            ->label('Learning Outcome')
+                            ->required()
+                            ->maxLength(255),
+                        Textarea::make('summary')
+                            ->required()
+                            ->maxLength(150)
+                    ])
                     ->columns(2)
                     ->required() // Ensure that repeater is required
                     ->itemLabel(fn (array $state): ?string => $state['name'] ?? null)

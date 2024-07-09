@@ -16,6 +16,7 @@ use App\Livewire\MyProfileExtended;
 use Filament\Widgets\AccountWidget;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Filament\Widgets\CalendarWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use Filament\Http\Middleware\Authenticate;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
@@ -32,10 +33,12 @@ use App\Filament\Resources\SuperAdmin\EmployeeResource;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
 use Filament\Pages\Auth\PasswordReset\RequestPasswordReset;
 use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Croustibat\FilamentJobsMonitor\FilamentJobsMonitorPlugin;
+use App\Filament\Resources\MasterData\TeacherResource\Widgets\TotalTeacherChart;
 use App\Filament\Resources\MasterData\StudentResource\Widgets\TotalStudentsChart;
 use App\Filament\Resources\MasterData\ClassSchoolResource\Widgets\TotalMemberClassSchoolInClassSchoolChart;
 
@@ -80,6 +83,8 @@ class CurriculumPanelProvider extends PanelProvider
                 AcademicYearWidget::class,
                 TotalMemberClassSchoolInClassSchoolChart::class,
                 TotalStudentsChart::class,
+                TotalTeacherChart::class,
+                CalendarWidget::class
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -122,6 +127,9 @@ class CurriculumPanelProvider extends PanelProvider
                 \Hasnayeen\Themes\ThemesPlugin::make()->canViewThemesPage($canViewThemes),
                 FilamentApexChartsPlugin::make(),
                 FilamentJobsMonitorPlugin::make(),
+                FilamentFullCalendarPlugin::make()
+                    ->selectable(true)
+                    ->editable(true)
             ]);
     }
 }

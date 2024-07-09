@@ -83,6 +83,9 @@ class RolesTableSeeder extends Seeder
         Permission::create(['name' => 'export_student']);
         Permission::create(['name' => 'import_student']);
 
+        Permission::create(['name' => 'export_class_school']);
+        Permission::create(['name' => 'import_class_school']);
+
         $role = Role::findByName('curriculum');
         $role->givePermissionTo('export_student');
         $role->givePermissionTo('import_student');
@@ -90,5 +93,9 @@ class RolesTableSeeder extends Seeder
         $role = Role::findByName('super_admin');
         $role->givePermissionTo('export_student');
         $role->givePermissionTo('import_student');
+
+        $role = Role::findByName('super_admin');
+        $role->givePermissionTo('export_class_school');
+        $role->givePermissionTo('import_class_school');
     }
 }

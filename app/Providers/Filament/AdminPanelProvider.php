@@ -41,6 +41,7 @@ use App\Filament\Pages\Tenancy\RegisterEmployeePosition;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
 use App\Filament\Pages\Tenancy\EditEmployeePositionProfile;
 use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -143,6 +144,9 @@ class AdminPanelProvider extends PanelProvider
                 \Hasnayeen\Themes\ThemesPlugin::make()->canViewThemesPage($canViewThemes),
                 FilamentApexChartsPlugin::make(),
                 FilamentJobsMonitorPlugin::make(),
+                FilamentFullCalendarPlugin::make()
+                    ->selectable(true)
+                    ->editable(true)
             ]);
     }
 

@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use Livewire\Livewire;
 use Filament\Tables\Table;
 use Filament\Facades\Filament;
 use Filament\Tables\Actions\Action;
 use Illuminate\Support\ServiceProvider;
+use App\Filament\Widgets\CalendarWidget;
 use Filament\Navigation\NavigationGroup;
 use Filament\Tables\Enums\FiltersLayout;
 use BezhanSalleh\PanelSwitch\PanelSwitch;

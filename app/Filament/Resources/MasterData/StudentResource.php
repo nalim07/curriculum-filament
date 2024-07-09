@@ -25,6 +25,8 @@ use App\Filament\Exports\MasterData\StudentExporter;
 use App\Filament\Imports\MasterData\StudentImporter;
 use App\Filament\Resources\MasterData\StudentResource\Pages;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
 
 class StudentResource extends Resource
 {
@@ -402,7 +404,9 @@ class StudentResource extends Resource
     {
         return $table
             ->headerActions([
-                ExportAction::make()
+                FilamentExportHeaderAction::make('export'),
+                ExportAction::make('export_all')
+                    ->label('Export All Data')
                     ->exporter(StudentExporter::class)
                     ->columnMapping(false)
                     ->authorize(auth()->user()->can('export_student')),
@@ -439,12 +443,31 @@ class StudentResource extends Resource
                     ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
                     ->searchable()
                     ->preload(),
+                Tables\Filters\SelectFilter::make('level_id')
+                    ->label('Level')
+                    ->relationship('level', 'name', function ($query) {
+                        $query->orderBy('id', 'asc');
+                    })
+                    ->searchable()
+                    ->preload(),
+                Tables\Filters\SelectFilter::make('line_id')
+                    ->label('Line')
+                    ->relationship('line', 'name', function ($query) {
+                        $query->orderBy('id', 'asc');
+                    })
+                    ->searchable()
+                    ->preload(),
             ], layout: FiltersLayout::AboveContent)
             ->deselectAllRecordsWhenFiltered(false)
-            ->filtersFormColumns(1)
-            ->actions([Tables\Actions\EditAction::make()])
+            ->filtersFormColumns(3)
+            ->actions([
+                Tables\Actions\EditAction::make()
+            ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()]),
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                    FilamentExportBulkAction::make('Export')
+                ]),
             ]);
     }
 

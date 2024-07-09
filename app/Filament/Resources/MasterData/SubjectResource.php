@@ -4,12 +4,12 @@ namespace App\Filament\Resources\MasterData;
 
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Subject;
 use Filament\Forms\Set;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Filament\Resources\Resource;
-use App\Models\Subject;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Tables\Enums\FiltersLayout;
@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Exports\MasterData\SubjectExporter;
 use App\Filament\Imports\MasterData\SubjectImporter;
 use App\Filament\Resources\MasterData\SubjectResource\Pages;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
 use App\Filament\Resources\MasterData\SubjectResource\RelationManagers;
 
 class SubjectResource extends Resource
@@ -71,7 +73,9 @@ class SubjectResource extends Resource
     {
         return $table
             ->headerActions([
-                ExportAction::make()
+                FilamentExportHeaderAction::make('export'),
+                ExportAction::make('export_all')
+                    ->label('Export All Data')
                     ->exporter(SubjectExporter::class)
                     ->fileName(fn (Export $export): string => "subject-export-{$export->getKey()}")
                     ->columnMapping(false),
@@ -123,6 +127,7 @@ class SubjectResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    FilamentExportBulkAction::make('Export')
                 ]),
             ]);
     }

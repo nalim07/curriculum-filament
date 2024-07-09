@@ -43,6 +43,12 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use App\Filament\Resources\MasterData\TeacherResource\Widgets\TotalTeacherChart;
+use App\Filament\Resources\MasterData\ClassResource\Widgets\NumberOfClassesTaught;
+use App\Filament\Resources\MasterData\StudentResource\Widgets\NumberOfStudentTaught;
+use App\Filament\Resources\MasterData\SubjectResource\Widgets\NumberOfSubjectTaught;
+use App\Filament\Resources\MasterData\ClassResource\Widgets\NumberOfClassesSupervised;
+use App\Filament\Resources\MasterData\ExtracurricularResource\Widgets\NumberOfExtracurricularTaught;
 
 class TeacherPanelProvider extends PanelProvider
 {
@@ -88,6 +94,7 @@ class TeacherPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 AcademicYearWidget::class,
+                NumberOfClassesTaught::class,
             ])
             ->middleware([
                 EncryptCookies::class,

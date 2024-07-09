@@ -19,9 +19,14 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Actions\ExportAction;
+use Filament\Tables\Actions\ImportAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Exports\MasterData\ClassSchoolExporter;
+use App\Filament\Imports\MasterData\ClassSchoolImporter;
 use App\Filament\Resources\MasterData\ClassSchoolResource\Pages;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
 use App\Filament\Resources\MasterData\ClassSchoolResource\RelationManagers;
 use LucasGiovanny\FilamentMultiselectTwoSides\Forms\Components\Fields\MultiselectTwoSides;
 use App\Filament\Resources\MasterData\ClassSchoolResource\RelationManagers\MemberClassSchoolsRelationManager;
@@ -77,6 +82,17 @@ class ClassSchoolResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->headerActions([
+                FilamentExportHeaderAction::make('export'),
+                ExportAction::make('export_all')
+                    ->label('Export All Data')
+                    ->exporter(ClassSchoolExporter::class)
+                    ->columnMapping(false)
+                    ->authorize(auth()->user()->can('export_class_school')),
+                ImportAction::make()
+                    ->importer(ClassSchoolImporter::class)
+                    ->authorize(auth()->user()->can('import_class_school')),
+            ])
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Class Name')
