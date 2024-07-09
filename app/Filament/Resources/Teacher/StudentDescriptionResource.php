@@ -231,10 +231,6 @@ class StudentDescriptionResource extends Resource
         } else {
             return parent::getEloquentQuery()->whereHas('memberClassSchool.classSchool.academicYear', function (Builder $query) {
                 $query->where('id', Helper::getActiveAcademicYearId());
-            })->whereHas('memberClassSchool.classSchool.level.term', function (Builder $query) {
-                $query->where('id', Helper::getActiveTermIdPrimarySchool());
-            })->whereHas('memberClassSchool.classSchool.level.semester', function (Builder $query) {
-                $query->where('id', Helper::getActiveSemesterIdPrimarySchool());
             })->whereHas('planFormatifValue.learningData.teacher', function (Builder $query) {
                 $user = auth()->user();
                 if ($user && $user->employee && $user->employee->teacher) {

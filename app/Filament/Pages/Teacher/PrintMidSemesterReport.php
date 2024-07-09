@@ -17,7 +17,8 @@ use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
 class PrintMidSemesterReport extends Page
 {
-    // use HasPageShield;
+    use HasPageShield;
+
     public ?array $data = [];
     protected ?string $heading = 'Mid-Semester Progress Raport';
     public bool $saveBtn = false;

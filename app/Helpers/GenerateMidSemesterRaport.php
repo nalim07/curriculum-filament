@@ -193,7 +193,9 @@ class GenerateMidSemesterRaport
         $data_id_ekstrakulikuler = Extracurricular::where('academic_year_id', Helper::getActiveAcademicYearId())->get('id');
         $data_anggota_ekstrakulikuler = MemberExtracurricular::whereIn('extracurricular_id', $data_id_ekstrakulikuler)->get();
         foreach ($data_anggota_ekstrakulikuler as $anggota_ekstrakulikuler) {
-            $cek_nilai_ekstra = ExtracurricularAssessment::where('member_extracurricular_id', $anggota_ekstrakulikuler->id)->first();
+            $cek_nilai_ekstra = ExtracurricularAssessment::where('member_extracurricular_id', $anggota_ekstrakulikuler->id)
+                ->where('semester_id', $semester)
+                ->first();
             if (is_null($cek_nilai_ekstra)) {
                 $anggota_ekstrakulikuler->nilai = null;
                 $anggota_ekstrakulikuler->deskripsi = null;
@@ -204,16 +206,19 @@ class GenerateMidSemesterRaport
         }
 
         $data_prestasi_siswa = StudentAchievement::join('member_class_schools', 'student_achievements.member_class_school_id', '=', 'member_class_schools.id')
+            ->where('student_achievements.semester_id', $semester)
             ->where('member_class_schools.class_school_id', $id)
             ->select('student_achievements.*', 'member_class_schools.*') // Adjust the columns as needed
             ->get();
 
         $data_kehadiran_siswa = StudentAttendance::join('member_class_schools', 'student_attendances.member_class_school_id', '=', 'member_class_schools.id')
+            ->where('student_attendances.semester_id', $semester)
             ->where('member_class_schools.class_school_id', $id)
             ->select('student_attendances.*', 'member_class_schools.*') // Adjust the columns as needed
             ->get();
 
         $data_catatan_wali_kelas = HomeroomNotes::join('member_class_schools', 'homeroom_notes.member_class_school_id', '=', 'member_class_schools.id')
+            ->where('homeroom_notes.semester_id', $semester)
             ->where('member_class_schools.class_school_id', $id)
             ->select('homeroom_notes.*', 'member_class_schools.*') // Adjust the columns as needed
             ->get();

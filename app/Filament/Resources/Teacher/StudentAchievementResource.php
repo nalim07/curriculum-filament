@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Tables\Enums\FiltersLayout;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\CheckboxList;
@@ -57,6 +58,28 @@ class StudentAchievementResource extends Resource
                         ->searchable()
                         ->preload()
                         ->live()
+                        ->afterStateUpdated(function ($state, callable $set, $get) {
+                            $classSchool = ClassSchool::find($state);
+                            if ($classSchool) {
+                                $set('semester_id', $classSchool->level->semester_id);
+                            }
+                        })
+                        ->required(),
+                    Forms\Components\Select::make('semester_id')
+                        ->label('Semester')
+                        ->options([
+                            '1' => '1',
+                            '2' => '2',
+                        ])
+                        ->default(function (Get $get) {
+                            $classSchool = ClassSchool::find($get('class_school_id'));
+                            if ($classSchool) {
+                                $semester = $classSchool->level->semester_id;
+                                return $semester ? $semester : null;
+                            }
+                            return null;
+                        })
+                        ->searchable()
                         ->required(),
                     Select::make('member_class_school_id')
                         ->label('Students')
@@ -76,14 +99,6 @@ class StudentAchievementResource extends Resource
                         ->searchable()
                         ->columns(3),
                     Forms\Components\TextInput::make('name')->required()->maxLength(100),
-                    Forms\Components\Select::make('semester_id')
-                        ->label('Semester')
-                        ->options([
-                            '1' => '1',
-                            '2' => '2',
-                        ])
-                        ->searchable()
-                        ->required(),
                     Forms\Components\Select::make('type_of_achievement')
                         ->options([
                             '1' => 'Academic',
@@ -170,36 +185,30 @@ class StudentAchievementResource extends Resource
                     ->label('Semester')
                     ->default(function (Get $get) {
                         $user = Auth::user();
-                        $level = null;
                         if ($user->hasRole('super_admin')) {
-                            $classSchool = ClassSchool::with('level')->where('academic_year_id', Helper::getActiveAcademicYearId())->first();
-                            if ($classSchool) {
-                                $level = $classSchool->level_id;
-                            }
+                            $classSchool = ClassSchool::whereNotIn('level_id', [1, 2, 3])->where('academic_year_id', Helper::getActiveAcademicYearId())->first();
+
+                            return $classSchool->level->semester->id ?? null;
                         } else {
                             if ($user && $user->employee && $user->employee->teacher) {
-                                $classSchool = ClassSchool::where('teacher_id', $user->employee->teacher->id)->where('academic_year_id', Helper::getActiveAcademicYearId())->first();
+                                $classSchool = ClassSchool::whereNotIn('level_id', [1, 2, 3])->where('teacher_id', $user->employee->teacher->id)->where('academic_year_id', Helper::getActiveAcademicYearId())->first();
                                 if ($classSchool) {
-                                    $level = $classSchool->level_id;
+                                    return $classSchool->level->semester->id ?? null;
                                 }
                             }
                         }
 
-                        if ($level) {
-                            $level = Level::find($level);
-                            if ($level) {
-                                return $level->semester_id;
-                            }
-                        }
-
-                        return null;
+                        // return null;
                     })
-                    ->relationship('semester', 'semester')
+                    ->options([
+                        '1' => '1',
+                        '2' => '2',
+                    ])
                     ->searchable()
                     ->preload(),
             ], layout: FiltersLayout::AboveContent)
             ->deselectAllRecordsWhenFiltered(false)
-            ->filtersFormColumns(1)
+            ->filtersFormColumns(2)
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -217,10 +226,6 @@ class StudentAchievementResource extends Resource
         } else {
             return parent::getEloquentQuery()->whereHas('memberClassSchool.classSchool.academicYear', function (Builder $query) {
                 $query->where('id', Helper::getActiveAcademicYearId());
-            })->whereHas('memberClassSchool.classSchool.level.term', function (Builder $query) {
-                $query->where('id', Helper::getActiveTermIdPrimarySchool());
-            })->whereHas('memberClassSchool.classSchool.level.semester', function (Builder $query) {
-                $query->where('id', Helper::getActiveSemesterIdPrimarySchool());
             })->whereHas('memberClassSchool.classSchool.teacher', function (Builder $query) {
                 $user = auth()->user();
                 if ($user && $user->employee && $user->employee->teacher) {

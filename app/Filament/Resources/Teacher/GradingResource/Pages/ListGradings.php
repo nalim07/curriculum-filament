@@ -59,7 +59,7 @@ class ListGradings extends ListRecords
                         ->preload()
                         ->label('Learning Data')
                         ->live()
-                        ->helperText('If empty learning data, please fill the plan formatif & sumatif')
+                        ->helperText('If empty learning data, please fill the marking schema first.')
                         ->afterStateUpdated(function ($state, callable $set, $get) {
                             $activeAcademicYearId = Helper::getActiveAcademicYearId();
                             $planFormatifValue = PlanFormatifValue::find($state);

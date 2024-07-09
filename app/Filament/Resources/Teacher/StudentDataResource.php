@@ -438,10 +438,6 @@ class StudentDataResource extends Resource
         } else {
             return parent::getEloquentQuery()->whereHas('classSchool.academicYear', function (Builder $query) {
                 $query->where('id', Helper::getActiveAcademicYearId());
-            })->whereHas('classSchool.level.term', function (Builder $query) {
-                $query->where('id', Helper::getActiveTermIdPrimarySchool());
-            })->whereHas('classSchool.level.semester', function (Builder $query) {
-                $query->where('id', Helper::getActiveSemesterIdPrimarySchool());
             })->whereHas('classSchool.teacher', function (Builder $query) {
                 $user = auth()->user();
                 if ($user && $user->employee && $user->employee->teacher) {

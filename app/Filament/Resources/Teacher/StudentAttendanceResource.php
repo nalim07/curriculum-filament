@@ -5,17 +5,18 @@ namespace App\Filament\Resources\Teacher;
 use Filament\Forms;
 use Filament\Tables;
 use App\Helpers\Helper;
+use Filament\Forms\Get;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use App\Models\ClassSchool;
 use Filament\Resources\Resource;
+use App\Models\StudentAttendance;
 use Illuminate\Support\Facades\Auth;
 use Filament\Support\Enums\Alignment;
-use App\Models\ClassSchool;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Tables\Columns\ColumnGroup;
 use Filament\Tables\Enums\FiltersLayout;
-use App\Models\StudentAttendance;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\BulkActionGroup;
@@ -54,6 +55,8 @@ class StudentAttendanceResource extends Resource
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('semester_id')
+                    ->label('Semester')
+                    ->alignment(Alignment::Center)
                     ->searchable()
                     ->sortable(),
                 ColumnGroup::make('Attendances', [
@@ -98,9 +101,34 @@ class StudentAttendanceResource extends Resource
 
                         return $query ? $query->id : null;
                     }),
+                Tables\Filters\SelectFilter::make('semester_id')
+                    ->label('Semester')
+                    ->default(function (Get $get) {
+                        $user = Auth::user();
+                        if ($user->hasRole('super_admin')) {
+                            $classSchool = ClassSchool::whereNotIn('level_id', [1, 2, 3])->where('academic_year_id', Helper::getActiveAcademicYearId())->first();
+
+                            return $classSchool->level->semester->id ?? null;
+                        } else {
+                            if ($user && $user->employee && $user->employee->teacher) {
+                                $classSchool = ClassSchool::whereNotIn('level_id', [1, 2, 3])->where('teacher_id', $user->employee->teacher->id)->where('academic_year_id', Helper::getActiveAcademicYearId())->first();
+                                if ($classSchool) {
+                                    return $classSchool->level->semester->id ?? null;
+                                }
+                            }
+                        }
+
+                        // return null;
+                    })
+                    ->options([
+                        '1' => '1',
+                        '2' => '2',
+                    ])
+                    ->searchable()
+                    ->preload(),
             ], layout: FiltersLayout::AboveContent)
             ->deselectAllRecordsWhenFiltered(false)
-            ->filtersFormColumns(1)
+            ->filtersFormColumns(2)
             ->actions([])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -118,10 +146,6 @@ class StudentAttendanceResource extends Resource
         } else {
             return parent::getEloquentQuery()->whereHas('memberClassSchool.classSchool.academicYear', function (Builder $query) {
                 $query->where('id', Helper::getActiveAcademicYearId());
-            })->whereHas('memberClassSchool.classSchool.level.term', function (Builder $query) {
-                $query->where('id', Helper::getActiveTermIdPrimarySchool());
-            })->whereHas('memberClassSchool.classSchool.level.semester', function (Builder $query) {
-                $query->where('id', Helper::getActiveSemesterIdPrimarySchool());
             })->whereHas('memberClassSchool.classSchool.teacher', function (Builder $query) {
                 $user = auth()->user();
                 if ($user && $user->employee && $user->employee->teacher) {

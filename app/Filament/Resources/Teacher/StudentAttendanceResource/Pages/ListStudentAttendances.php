@@ -43,12 +43,34 @@ class ListStudentAttendances extends ListRecords
                                 });;
                             }
                         })
+                        ->afterStateUpdated(function ($state, callable $set, $get) {
+                            $classSchool = ClassSchool::find($state);
+                            if ($classSchool) {
+                                $set('semester_id', $classSchool->level->semester_id);
+                            }
+                        })
                         ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
                         ->required()
                         ->searchable()
                         ->preload()
                         ->label('Class School')
                         ->live(),
+                    Select::make('semester_id')
+                        ->label('Semester')
+                        ->options([
+                            '1' => '1',
+                            '2' => '2',
+                        ])
+                        ->default(function (Get $get) {
+                            $classSchool = ClassSchool::find($get('plan_formatif_value_id'));
+                            if ($classSchool) {
+                                $semester = $classSchool->level->semester_id;
+                                return $semester ? $semester : null;
+                            }
+                            return null;
+                        })
+                        ->searchable()
+                        ->required(),
                     CheckboxList::make('member_class_school_id')
                         ->label('Students')
                         ->rules(function ($get) {
@@ -88,6 +110,7 @@ class ListStudentAttendances extends ListRecords
                         for ($i = 0; $i < count($getMemberClassSchoolId); $i++) {
                             $dataArray = [
                                 'class_school_id' => $data['class_school_id'],
+                                'semester_id' => $data['semester_id'],
                                 'member_class_school_id' => $getMemberClassSchoolId[$i],
                             ];
 

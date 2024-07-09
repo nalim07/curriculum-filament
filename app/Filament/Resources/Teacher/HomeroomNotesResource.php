@@ -5,11 +5,13 @@ namespace App\Filament\Resources\Teacher;
 use Filament\Forms;
 use Filament\Tables;
 use App\Helpers\Helper;
+use Filament\Forms\Get;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use App\Models\HomeroomNotes;
 use App\Models\ClassSchool;
+use App\Models\HomeroomNotes;
+use Filament\Resources\Resource;
+use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
@@ -105,9 +107,34 @@ class HomeroomNotesResource extends Resource
 
                         return $query ? $query->id : null;
                     }),
+                Tables\Filters\SelectFilter::make('semester_id')
+                    ->label('Semester')
+                    ->default(function (Get $get) {
+                        $user = Auth::user();
+                        if ($user->hasRole('super_admin')) {
+                            $classSchool = ClassSchool::whereNotIn('level_id', [1, 2, 3])->where('academic_year_id', Helper::getActiveAcademicYearId())->first();
+
+                            return $classSchool->level->semester->id ?? null;
+                        } else {
+                            if ($user && $user->employee && $user->employee->teacher) {
+                                $classSchool = ClassSchool::whereNotIn('level_id', [1, 2, 3])->where('teacher_id', $user->employee->teacher->id)->where('academic_year_id', Helper::getActiveAcademicYearId())->first();
+                                if ($classSchool) {
+                                    return $classSchool->level->semester->id ?? null;
+                                }
+                            }
+                        }
+
+                        // return null;
+                    })
+                    ->options([
+                        '1' => '1',
+                        '2' => '2',
+                    ])
+                    ->searchable()
+                    ->preload(),
             ], layout: FiltersLayout::AboveContent)
             ->deselectAllRecordsWhenFiltered(false)
-            ->filtersFormColumns(1)
+            ->filtersFormColumns(2)
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])

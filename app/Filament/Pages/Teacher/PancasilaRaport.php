@@ -22,7 +22,8 @@ use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
 class PancasilaRaport extends Page
 {
-    // use HasPageShield;
+    use HasPageShield;
+
     public ?array $data = [];
     protected ?string $heading = 'P5 Raport';
     public ?array $projectElements = [];
