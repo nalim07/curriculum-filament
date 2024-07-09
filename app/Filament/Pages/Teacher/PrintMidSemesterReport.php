@@ -57,6 +57,7 @@ class PrintMidSemesterReport extends Page
                     Select::make('term_id')
                         ->label('Term')
                         ->searchable()
+                        ->default(2)
                         ->options(
                             [
                                 2 => '2',
