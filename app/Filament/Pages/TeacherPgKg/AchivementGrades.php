@@ -38,6 +38,8 @@ use App\Helpers\GeneratePancasilaRaport;
 
 class AchivementGrades extends Page
 {
+    use HasPageShield;
+
     public ?array $data = [];
     protected ?string $heading = 'Achivement Grades';
     public bool $saveBtn = false;

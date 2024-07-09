@@ -11,12 +11,14 @@ use App\Models\ClassSchool;
 use App\Models\MemberClassSchool;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Select;
-use Illuminate\Database\Eloquent\Collection;
 use Filament\Forms\Components\DatePicker;
+use Illuminate\Database\Eloquent\Collection;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
 class PrintAchivementGradesReport extends Page
 {
-    // use HasPageShield;
+    use HasPageShield;
+
     public ?array $data = [];
     protected ?string $heading = 'Print Report';
     public bool $saveBtn = false;
