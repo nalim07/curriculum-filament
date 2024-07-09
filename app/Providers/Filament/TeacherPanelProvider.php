@@ -72,6 +72,7 @@ class TeacherPanelProvider extends PanelProvider
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->sidebarCollapsibleOnDesktop()
             ->discoverResources(in: app_path('Filament/Resources/Teacher'), for: 'App\\Filament\\Resources\\Teacher')
+            ->discoverPages(in: app_path('Filament/Pages/Teacher'), for: 'App\\Filament\\Pages\\Teacher')
             ->resources([
                 SilabusResource::class,
             ])
