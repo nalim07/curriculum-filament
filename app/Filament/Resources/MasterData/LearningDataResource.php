@@ -140,6 +140,12 @@ class LearningDataResource extends Resource
                     ->multiple(),
             ], layout: FiltersLayout::AboveContent)
             ->filtersFormColumns(3)
+            ->modifyQueryUsing(function ($query) {
+                $query->join('class_schools', 'learning_data.class_school_id', '=', 'class_schools.id')
+                    ->orderBy('learning_data.status', 'desc')
+                    ->orderBy('class_schools.level_id')
+                    ->select('learning_data.*');
+            })
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

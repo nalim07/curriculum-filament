@@ -11,8 +11,10 @@ use Filament\Tables\Table;
 use App\Models\Extracurricular;
 use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Model;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Actions\ExportAction;
 use Filament\Tables\Actions\ImportAction;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Actions\Exports\Models\Export;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -96,8 +98,14 @@ class ExtracurricularResource extends Resource
             //     });
             // })
             ->filters([
-                //
-            ])
+                SelectFilter::make('teacher_id')
+                    ->label('Teacher')
+                    ->relationship('teacher.employee', 'fullname')
+                    ->searchable()
+                    ->preload()
+                    ->multiple(),
+            ], layout: FiltersLayout::AboveContent)
+            ->filtersFormColumns(1)
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

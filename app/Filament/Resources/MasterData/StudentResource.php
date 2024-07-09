@@ -460,6 +460,7 @@ class StudentResource extends Resource
             ], layout: FiltersLayout::AboveContent)
             ->deselectAllRecordsWhenFiltered(false)
             ->filtersFormColumns(3)
+            ->defaultSort('level_id')
             ->actions([
                 Tables\Actions\EditAction::make()
             ])

@@ -5,18 +5,19 @@ namespace App\Filament\Resources\MasterData;
 use Filament\Forms;
 use Filament\Tables;
 use App\Helpers\Helper;
+use App\Models\Silabus;
+use App\Models\Subject;
 use Filament\Forms\Get;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use App\Models\Silabus;
-use App\Models\Subject;
 use App\Models\ClassSchool;
+use App\Models\LearningData;
+use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Model;
+use Filament\Tables\Enums\FiltersLayout;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\MasterData\SilabusResource\Pages;
-use Filament\Tables\Enums\FiltersLayout;
 
 class SilabusResource extends Resource
 {
@@ -157,10 +158,9 @@ class SilabusResource extends Resource
                     ->preload()
                     ->default(function () {
                         $user = auth()->user();
-                        $teacherId = $user->employee->teacher->id;
 
                         // Fetch the first record based on the same query logic used in the relationship
-                        $query = auth()->user()->hasRole('super_admin') ? ClassSchool::where('academic_year_id', Helper::getActiveAcademicYearId())->first() : ClassSchool::where('teacher_id', $teacherId)->where('academic_year_id', Helper::getActiveAcademicYearId())->first();
+                        $query = auth()->user()->hasRole('super_admin') ? ClassSchool::where('academic_year_id', Helper::getActiveAcademicYearId())->first() : ClassSchool::where('teacher_id', $user->employee->teacher->id)->where('academic_year_id', Helper::getActiveAcademicYearId())->first();
 
                         return $query ? $query->id : null;
                     }),
@@ -182,14 +182,28 @@ class SilabusResource extends Resource
                     ->preload()
                     ->default(function () {
                         $user = auth()->user();
-                        $teacherId = $user->employee->teacher->id;
+                        $academicYearId = Helper::getActiveAcademicYearId();
 
-                        $query = auth()->user()->hasRole('super_admin') ? Subject::where('academic_year_id', Helper::getActiveAcademicYearId())->first() : Subject::where('academic_year_id', Helper::getActiveAcademicYearId())->first();
+                        // Periksa apakah user memiliki relasi ke employee dan employee memiliki relasi ke teacher
+                        if ($user->employee && $user->employee->teacher) {
+                            $teacherId = $user->employee->teacher->id;
 
-                        return $query ? $query->id : null;
+                            // Dapatkan ID subject dari learningData berdasarkan teacher_id
+                            $subjectId = LearningData::whereHas('subject', function ($query) use ($teacherId, $academicYearId) {
+                                $query->where('teacher_id', $teacherId)
+                                    ->where('academic_year_id', $academicYearId);
+                            })->pluck('subject_id')->first();
+
+                            return $subjectId ?: null;
+                        } else {
+                            // Jika user tidak memiliki relasi ke employee atau employee tidak memiliki relasi ke teacher
+                            $subject = Subject::where('academic_year_id', $academicYearId)->first();
+                            return $subject ? $subject->id : null;
+                        }
                     }),
             ], layout: FiltersLayout::AboveContent)
             ->filtersFormColumns(2)
+            ->defaultSort('class_school_id')
             ->actions([Tables\Actions\ViewAction::make(), Tables\Actions\EditAction::make()])
             ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
     }

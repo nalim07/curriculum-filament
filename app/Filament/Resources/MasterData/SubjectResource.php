@@ -44,6 +44,7 @@ class SubjectResource extends Resource
                     ->schema([
                         Forms\Components\Select::make('academic_year_id')
                             ->required()
+                            ->default(Helper::getActiveAcademicYearId())
                             ->preload()
                             ->searchable()
                             ->relationship('academicYear', 'year'),
@@ -108,18 +109,8 @@ class SubjectResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            // ->modifyQueryUsing(function (Builder $query) {
-            //     $query->whereHas('academicYear', function (Builder $query) {
-            //         $query->where('status', true);
-            //     });
-            // })
-            ->filters([
-                // SelectFilter::make('academic_year_id')
-                //     ->relationship('academicYear', 'year')
-                //     ->label('Academic Year')
-                //     ->preload()
-                //     ->searchable(),
-            ], layout: FiltersLayout::AboveContent)
+            ->filters([], layout: FiltersLayout::AboveContent)
+            ->defaultSort('name')
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

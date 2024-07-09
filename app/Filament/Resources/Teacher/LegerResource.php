@@ -105,10 +105,9 @@ class LegerResource extends Resource
                     ->preload()
                     ->default(function () {
                         $user = auth()->user();
-                        $teacherId = $user->employee->teacher->id;
 
                         // Fetch the first record based on the same query logic used in the relationship
-                        $query = auth()->user()->hasRole('super_admin') ? ClassSchool::whereNotIn('level_id', [1, 2, 3])->where('academic_year_id', Helper::getActiveAcademicYearId())->first() : ClassSchool::whereNotIn('level_id', [1, 2, 3])->where('teacher_id', $teacherId)->where('academic_year_id', Helper::getActiveAcademicYearId())->first();
+                        $query = auth()->user()->hasRole('super_admin') ? ClassSchool::whereNotIn('level_id', [1, 2, 3])->where('academic_year_id', Helper::getActiveAcademicYearId())->first() : ClassSchool::whereNotIn('level_id', [1, 2, 3])->where('teacher_id', $user->employee->teacher->id)->where('academic_year_id', Helper::getActiveAcademicYearId())->first();
 
                         return $query ? $query->id : null;
                     }),

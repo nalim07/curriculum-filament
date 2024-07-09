@@ -14,15 +14,31 @@ class NumberOfClassesTaught extends BaseWidget
 {
     protected function getCards(): array
     {
-        $teacherId = auth()->user()->employee->teacher->id;
+        $user = auth()->user();
+        $teacher = $user->employee ? $user->employee->teacher : null;
 
-        $classCount = ClassSchool::where('teacher_id', $teacherId)->count();
-        $uniqueSubjectCount = LearningData::where('teacher_id', $teacherId)
-            ->distinct('subject_id')
-            ->count('subject_id');
-        $classSchoolIds = ClassSchool::where('teacher_id', $teacherId)->pluck('id');
-        $studentCount = MemberClassSchool::whereIn('class_school_id', $classSchoolIds)->count();
-        $extracurricularCount = Extracurricular::where('teacher_id', $teacherId)->count();
+        if ($teacher) {
+            $teacherId = $teacher->id;
+
+            $classCount = ClassSchool::where('teacher_id', $teacherId)->count();
+
+            $uniqueSubjectCount = LearningData::where('teacher_id', $teacherId)
+                ->distinct('subject_id')
+                ->count('subject_id');
+
+            $classSchoolIds = ClassSchool::where('teacher_id', $teacherId)->pluck('id');
+
+            $studentCount = MemberClassSchool::whereIn('class_school_id', $classSchoolIds)->count();
+
+            $extracurricularCount = Extracurricular::where('teacher_id', $teacherId)->count();
+        } else {
+            // Jika teacher adalah null
+            $classCount = 0;
+            $uniqueSubjectCount = 0;
+            $classSchoolIds = [];
+            $studentCount = 0;
+            $extracurricularCount = 0;
+        }
 
         return [
             Card::make('Number of Classes', $classCount)
