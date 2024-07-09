@@ -17,7 +17,7 @@ use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
 class PrintSemesterReport extends Page
 {
-    use HasPageShield;
+    // use HasPageShield;
 
     public ?array $data = [];
     protected ?string $heading = 'Semester Progress Report';

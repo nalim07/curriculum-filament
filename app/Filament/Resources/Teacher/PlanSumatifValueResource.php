@@ -34,6 +34,10 @@ class PlanSumatifValueResource extends Resource
 
     protected static ?string $slug = 'plan-sumatif-values';
 
+    protected static ?string $navigationLabel = "Marking Schema of Learning";
+
+    protected static ?string $modelLabel = "Marking Schema of Learning";
+
     public static function form(Form $form): Form
     {
         return $form
@@ -116,12 +120,17 @@ class PlanSumatifValueResource extends Resource
                     ->schema([
                         TextInput::make('code')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->reactive()
+                            ->default(function () {
+                                return 'S' . strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 4));
+                            })
+                            ->helperText('this code generated automatically')
+                            ->readonly(),
                         Select::make('technique')
                             ->options([
                                 '1' => 'Tes Tulis',
-                                '2' => 'Tes Lisan',
-                                '3' => 'Penugasan',
+                                '2' => 'Praktikal Test',
                             ])
                             ->required(),
                         TextInput::make('weighting')
@@ -132,8 +141,8 @@ class PlanSumatifValueResource extends Resource
                             ->minValue(0)
                             ->maxValue(100),
                     ])
-                    ->minItems(3)
-                    ->maxItems(3)
+                    ->minItems(1)
+                    ->maxItems(2)
                     ->addActionLabel('Add Assessment Technique')
                     ->columns(3)
                     ->columnSpan('full'),

@@ -53,9 +53,9 @@ class GradingResource extends Resource
 
     protected static function calculateAverage($data, $record)
     {
-        $formatif_techniques = ['formatif_technique_1', 'formatif_technique_2', 'formatif_technique_3'];
+        $formatif_techniques = ['formatif_technique_1', 'formatif_technique_2', 'formatif_technique_3', 'formatif_technique_4', 'formatif_technique_5'];
 
-        $sumatif_techniques = ['sumatif_technique_1', 'sumatif_technique_2', 'sumatif_technique_3'];
+        $sumatif_techniques = ['sumatif_technique_1', 'sumatif_technique_2'];
 
         $formatif_values = array_map(function ($technique) use ($data) {
             return (float) ($data[$technique] ?? 0);
@@ -114,7 +114,7 @@ class GradingResource extends Resource
                         ->alignment(Alignment::Center)
                         ->label('F1')
                         ->afterStateUpdated(function ($record, $state) {
-                            $data = $record->only(['formatif_technique_1', 'formatif_technique_2', 'formatif_technique_3', 'sumatif_technique_1', 'sumatif_technique_2', 'sumatif_technique_3']);
+                            $data = $record->only(['formatif_technique_1', 'formatif_technique_2', 'formatif_technique_3', 'formatif_technique_4', 'formatif_technique_5', 'sumatif_technique_1', 'sumatif_technique_2']);
                             $average = self::calculateAverage($data, $record);
                             $record->nilai_akhir = $average;
                             $record->save();
@@ -125,7 +125,7 @@ class GradingResource extends Resource
                         ->rules(['numeric', 'min:0', 'max:100'])
                         ->label('F2')
                         ->afterStateUpdated(function ($record, $state) {
-                            $data = $record->only(['formatif_technique_1', 'formatif_technique_2', 'formatif_technique_3', 'sumatif_technique_1', 'sumatif_technique_2', 'sumatif_technique_3']);
+                            $data = $record->only(['formatif_technique_1', 'formatif_technique_2', 'formatif_technique_3', 'formatif_technique_4', 'formatif_technique_5', 'sumatif_technique_1', 'sumatif_technique_2']);
                             $average = self::calculateAverage($data, $record);
                             $record->nilai_akhir = $average;
                             $record->save();
@@ -134,14 +134,36 @@ class GradingResource extends Resource
                     TextInputColumn::make('formatif_technique_3')
                         ->alignment(Alignment::Center)
                         ->rules(['numeric', 'min:0', 'max:100'])
-                        ->label('F2')
+                        ->label('F3')
                         ->afterStateUpdated(function ($record, $state) {
-                            $data = $record->only(['formatif_technique_1', 'formatif_technique_2', 'formatif_technique_3', 'sumatif_technique_1', 'sumatif_technique_2', 'sumatif_technique_3']);
+                            $data = $record->only(['formatif_technique_1', 'formatif_technique_2', 'formatif_technique_3', 'formatif_technique_4', 'formatif_technique_5', 'sumatif_technique_1', 'sumatif_technique_2']);
                             $average = self::calculateAverage($data, $record);
                             $record->nilai_akhir = $average;
                             $record->save();
                         })
                         ->tooltip(fn ($record): string => self::getTechniqueFormatif($record, 2, $record->planFormatifValue->semester_id, $record->planFormatifValue->term_id)),
+                    TextInputColumn::make('formatif_technique_4')
+                        ->alignment(Alignment::Center)
+                        ->rules(['numeric', 'min:0', 'max:100'])
+                        ->label('F4')
+                        ->afterStateUpdated(function ($record, $state) {
+                            $data = $record->only(['formatif_technique_1', 'formatif_technique_2', 'formatif_technique_3', 'formatif_technique_4', 'formatif_technique_5', 'sumatif_technique_1', 'sumatif_technique_2']);
+                            $average = self::calculateAverage($data, $record);
+                            $record->nilai_akhir = $average;
+                            $record->save();
+                        })
+                        ->tooltip(fn ($record): string => self::getTechniqueFormatif($record, 3, $record->planFormatifValue->semester_id, $record->planFormatifValue->term_id)),
+                    TextInputColumn::make('formatif_technique_5')
+                        ->alignment(Alignment::Center)
+                        ->rules(['numeric', 'min:0', 'max:100'])
+                        ->label('F5')
+                        ->afterStateUpdated(function ($record, $state) {
+                            $data = $record->only(['formatif_technique_1', 'formatif_technique_2', 'formatif_technique_3', 'formatif_technique_4', 'formatif_technique_5', 'sumatif_technique_1', 'sumatif_technique_2']);
+                            $average = self::calculateAverage($data, $record);
+                            $record->nilai_akhir = $average;
+                            $record->save();
+                        })
+                        ->tooltip(fn ($record): string => self::getTechniqueFormatif($record, 4, $record->planFormatifValue->semester_id, $record->planFormatifValue->term_id)),
                 ])->alignment(Alignment::Center),
                 ColumnGroup::make('Formatif Value', [
                     TextInputColumn::make('sumatif_technique_1')
@@ -149,7 +171,7 @@ class GradingResource extends Resource
                         ->rules(['numeric', 'min:0', 'max:100'])
                         ->label('S1')
                         ->afterStateUpdated(function ($record, $state) {
-                            $data = $record->only(['formatif_technique_1', 'formatif_technique_2', 'formatif_technique_3', 'sumatif_technique_1', 'sumatif_technique_2', 'sumatif_technique_3']);
+                            $data = $record->only(['formatif_technique_1', 'formatif_technique_2', 'formatif_technique_3', 'formatif_technique_4', 'formatif_technique_5', 'sumatif_technique_1', 'sumatif_technique_2']);
                             $average = self::calculateAverage($data, $record);
                             $record->nilai_akhir = $average;
                             $record->save();
@@ -160,23 +182,12 @@ class GradingResource extends Resource
                         ->rules(['numeric', 'min:0', 'max:100'])
                         ->label('S2')
                         ->afterStateUpdated(function ($record, $state) {
-                            $data = $record->only(['formatif_technique_1', 'formatif_technique_2', 'formatif_technique_3', 'sumatif_technique_1', 'sumatif_technique_2', 'sumatif_technique_3']);
+                            $data = $record->only(['formatif_technique_1', 'formatif_technique_2', 'formatif_technique_3', 'formatif_technique_4', 'formatif_technique_5', 'sumatif_technique_1', 'sumatif_technique_2']);
                             $average = self::calculateAverage($data, $record);
                             $record->nilai_akhir = $average;
                             $record->save();
                         })
                         ->tooltip(fn ($record): string => self::getTechniqueSumatif($record, 1, $record->planSumatifValue->semester_id, $record->planSumatifValue->term_id)),
-                    TextInputColumn::make('sumatif_technique_3')
-                        ->alignment(Alignment::Center)
-                        ->rules(['numeric', 'min:0', 'max:100'])
-                        ->label('S2')
-                        ->afterStateUpdated(function ($record, $state) {
-                            $data = $record->only(['formatif_technique_1', 'formatif_technique_2', 'formatif_technique_3', 'sumatif_technique_1', 'sumatif_technique_2', 'sumatif_technique_3']);
-                            $average = self::calculateAverage($data, $record);
-                            $record->nilai_akhir = $average;
-                            $record->save();
-                        })
-                        ->tooltip(fn ($record): string => self::getTechniqueSumatif($record, 2, $record->planSumatifValue->semester_id, $record->planSumatifValue->term_id)),
                 ])->alignment(Alignment::Center),
                 ColumnGroup::make('Report Value', [
                     TextInputColumn::make('nilai_akhir')

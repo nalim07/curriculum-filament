@@ -53,7 +53,9 @@ class StudentAttendanceResource extends Resource
                 TextColumn::make('memberClassSchool.classSchool.name')
                     ->searchable()
                     ->sortable(),
-
+                TextColumn::make('semester_id')
+                    ->searchable()
+                    ->sortable(),
                 ColumnGroup::make('Attendances', [
                     TextInputColumn::make('sick')
                         ->alignment(Alignment::Center)

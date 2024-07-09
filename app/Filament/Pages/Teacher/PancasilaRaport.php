@@ -15,13 +15,14 @@ use Filament\Forms\Components\Select;
 use App\Models\PancasilaRaportProject;
 use App\Models\StudentPancasilaRaport;
 use Filament\Notifications\Notification;
+use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\PancasilaRaportValueDescription;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
 class PancasilaRaport extends Page
 {
-    use HasPageShield;
+    // use HasPageShield;
     public ?array $data = [];
     protected ?string $heading = 'P5 Raport';
     public ?array $projectElements = [];
@@ -99,7 +100,12 @@ class PancasilaRaport extends Page
                                 ->toArray()
                         )
                         ->required(),
-                ])->columns(2),
+                    DatePicker::make('date')
+                        ->default(now())
+                        ->native(false)
+                        ->label('Date')
+                        ->required(),
+                ])->columns(3),
             ])
             ->statePath('data');
     }

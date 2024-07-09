@@ -15,6 +15,7 @@ class StudentAttendanceSeeder extends Seeder
     {
         StudentAttendance::create([
             'class_school_id' => 8,
+            'semester_id' => 1,
             'member_class_school_id' => 1,
             'sick' => 1,
             'permission' => 1,
@@ -23,6 +24,7 @@ class StudentAttendanceSeeder extends Seeder
 
         StudentAttendance::create([
             'class_school_id' => 8,
+            'semester_id' => 1,
             'member_class_school_id' => 2,
             'sick' => 1,
             'permission' => 1,

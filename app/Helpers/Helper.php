@@ -215,15 +215,15 @@ class Helper
     public static function getPlanFormatifTechnique($id)
     {
         if ($id == 1) {
-            return 'Parktik';
+            return 'Quiz/Chapter Test ';
         } elseif ($id == 2) {
             return 'Projek';
         } elseif ($id == 3) {
-            return 'Produk';
+            return 'Portfolio';
         } elseif ($id == 4) {
-            return 'Teknik 1';
+            return 'Classwork';
         } elseif ($id == 5) {
-            return 'Teknik 2';
+            return 'End Semester';
         } else {
             return 'Other';
         }
@@ -234,9 +234,7 @@ class Helper
         if ($id == 1) {
             return 'Tes Tulis';
         } elseif ($id == 2) {
-            return 'Tes Lisan';
-        } elseif ($id == 3) {
-            return 'Penugasan';
+            return 'Praktical Test';
         } else {
             return 'Other';
         }

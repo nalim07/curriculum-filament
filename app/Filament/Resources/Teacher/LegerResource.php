@@ -81,9 +81,9 @@ class LegerResource extends Resource
                         ->tooltip('Without Explanation')
                         ->label('A'),
                 ])->alignment(Alignment::Center),
-                ColumnGroup::make('Extracurricular', [
-                    ...self::generateExtracurricularColumns(),
-                ])->alignment(Alignment::Center),
+                // ColumnGroup::make('Extracurricular', [
+                //     ...self::generateExtracurricularColumns(),
+                // ])->alignment(Alignment::Center),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('class_school_id')
@@ -124,25 +124,25 @@ class LegerResource extends Resource
             ]);
     }
 
-    protected static function generateExtracurricularColumns(): array
-    {
-        $columns = [];
-        $extracurriculars = \App\Models\Extracurricular::all();
+    // protected static function generateExtracurricularColumns(): array
+    // {
+    //     $columns = [];
+    //     $extracurriculars = \App\Models\Extracurricular::all();
 
-        foreach ($extracurriculars as $extracurricular) {
-            $columns[] = TextColumn::make('extracurricularAssessments.' . $extracurricular->id)
-                ->label($extracurricular->name)
-                ->badge()
-                ->color('primary')
-                ->alignment(Alignment::Center)
-                ->getStateUsing(function ($record) use ($extracurricular) {
-                    $assessment = $record->extracurricularAssessments->firstWhere('extracurricular_id', $extracurricular->id);
-                    return $assessment ? $assessment->grade : '-';
-                });
-        }
+    //     foreach ($extracurriculars as $extracurricular) {
+    //         $columns[] = TextColumn::make('extracurricularAssessments.' . $extracurricular->id)
+    //             ->label($extracurricular->name)
+    //             ->badge()
+    //             ->color('primary')
+    //             ->alignment(Alignment::Center)
+    //             ->getStateUsing(function ($record) use ($extracurricular) {
+    //                 $assessment = $record->extracurricularAssessments->firstWhere('extracurricular_id', $extracurricular->id);
+    //                 return $assessment ? $assessment->grade : '-';
+    //             });
+    //     }
 
-        return $columns;
-    }
+    //     return $columns;
+    // }
 
     public static function getEloquentQuery(): Builder
     {

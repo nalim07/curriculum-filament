@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('extracurricular_assessments', function (Blueprint $table) {
             $table->id();
-
+            $table->foreignId('semester_id')->constrained('semesters')->onDelete('cascade');
             $table->foreignId('extracurricular_id')->constrained('extracurriculars')->onDelete('cascade');
             $table->foreignId('member_extracurricular_id')->constrained('member_extracurriculars')->onDelete('cascade');
             $table->enum('grade', ['A', 'B', 'C', 'D'])->nullable();

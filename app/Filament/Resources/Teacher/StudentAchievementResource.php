@@ -4,21 +4,23 @@ namespace App\Filament\Resources\Teacher;
 
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Level;
 use App\Helpers\Helper;
 use Filament\Forms\Get;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use App\Models\ClassSchool;
 use Illuminate\Validation\Rule;
 use Filament\Resources\Resource;
+use App\Models\MemberClassSchool;
+use App\Models\StudentAchievement;
+use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
-use App\Models\ClassSchool;
 use Filament\Forms\Components\Section;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Illuminate\Database\Eloquent\Builder;
-use App\Models\StudentAchievement;
 use Filament\Forms\Components\CheckboxList;
-use App\Models\MemberClassSchool;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\Teacher\StudentAchievementResource\Pages;
 use App\Filament\Resources\Teacher\StudentAchievementResource\RelationManagers;
@@ -74,6 +76,14 @@ class StudentAchievementResource extends Resource
                         ->searchable()
                         ->columns(3),
                     Forms\Components\TextInput::make('name')->required()->maxLength(100),
+                    Forms\Components\Select::make('semester_id')
+                        ->label('Semester')
+                        ->options([
+                            '1' => '1',
+                            '2' => '2',
+                        ])
+                        ->searchable()
+                        ->required(),
                     Forms\Components\Select::make('type_of_achievement')
                         ->options([
                             '1' => 'Academic',
@@ -156,6 +166,37 @@ class StudentAchievementResource extends Resource
 
                         return $query ? $query->id : null;
                     }),
+                Tables\Filters\SelectFilter::make('semester_id')
+                    ->label('Semester')
+                    ->default(function (Get $get) {
+                        $user = Auth::user();
+                        $level = null;
+                        if ($user->hasRole('super_admin')) {
+                            $classSchool = ClassSchool::with('level')->where('academic_year_id', Helper::getActiveAcademicYearId())->first();
+                            if ($classSchool) {
+                                $level = $classSchool->level_id;
+                            }
+                        } else {
+                            if ($user && $user->employee && $user->employee->teacher) {
+                                $classSchool = ClassSchool::where('teacher_id', $user->employee->teacher->id)->where('academic_year_id', Helper::getActiveAcademicYearId())->first();
+                                if ($classSchool) {
+                                    $level = $classSchool->level_id;
+                                }
+                            }
+                        }
+
+                        if ($level) {
+                            $level = Level::find($level);
+                            if ($level) {
+                                return $level->semester_id;
+                            }
+                        }
+
+                        return null;
+                    })
+                    ->relationship('semester', 'semester')
+                    ->searchable()
+                    ->preload(),
             ], layout: FiltersLayout::AboveContent)
             ->deselectAllRecordsWhenFiltered(false)
             ->filtersFormColumns(1)

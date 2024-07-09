@@ -17,6 +17,7 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Model;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Actions\ExportAction;
 use Filament\Tables\Actions\ImportAction;
 use App\Filament\Resources\SuperAdmin\UserResource;
@@ -421,8 +422,26 @@ class StudentResource extends Resource
                 Tables\Columns\TextColumn::make('deleted_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                // Add any required filters here
-            ])
+                Tables\Filters\SelectFilter::make('class_school_id')
+                    ->label('Class School')
+                    ->relationship('classSchool', 'name', function ($query) {
+                        if (auth()->user()->hasRole('super_admin')) {
+                            return $query->whereNotIn('level_id', [1, 2, 3])->where('academic_year_id', Helper::getActiveAcademicYearId());
+                        } else {
+                            $user = auth()->user();
+                            if ($user && $user->employee && $user->employee->teacher) {
+                                $teacherId = $user->employee->teacher->id;
+                                return $query->whereNotIn('level_id', [1, 2, 3])->where('teacher_id', $teacherId)->where('academic_year_id', Helper::getActiveAcademicYearId());
+                            }
+                            return $query->whereNotIn('level_id', [1, 2, 3])->where('academic_year_id', Helper::getActiveAcademicYearId());
+                        }
+                    })
+                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
+                    ->searchable()
+                    ->preload(),
+            ], layout: FiltersLayout::AboveContent)
+            ->deselectAllRecordsWhenFiltered(false)
+            ->filtersFormColumns(1)
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()]),

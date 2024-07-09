@@ -193,7 +193,7 @@
                     <h3>: {{ $student->fullname }}</h3>
                 </td>
                 <td style="width: 12%">
-                    <h3>Homeroom</h3>
+                    <h3>Class</h3>
                 </td>
                 <td style="width: 24%">
                     <h3>: {{ $student->classSchool->name }}</h3>
@@ -210,7 +210,7 @@
                     <h3>Homeroom Teacher</h3>
                 </td>
                 <td style="width: 19%">
-                    <h3>: {{ $student->classSchool->teacher->employee->fullname }}</h3>
+                    <h3>: {{ $teacher->employee->fullname }}</h3>
                 </td>
             </tr>
         </table>
@@ -365,10 +365,10 @@
                         <br>Homeroom Teacher
                     </p>
                     @if (Storage::disk('public')->exists(
-                            'ttd/employee/signature/' . $anggota_kelas->classSchool->teacher->employee->employee_code . '.jpg'))
+                            'ttd/employee/signature/' . $student->classSchool->teacher->employee->employee_code . '.jpg'))
                         <div>
-                            <img src="{{ public_path() . '/storage/employee/signature/' . $anggota_kelas->classSchool->teacher->employee->employee_code . '.jpg' }}"
-                                alt="{{ $anggota_kelas->classSchool->teacher->employee->employee_code }}"
+                            <img src="{{ public_path() . '/storage/employee/signature/' . $student->classSchool->teacher->employee->employee_code . '.jpg' }}"
+                                alt="{{ $student->classSchool->teacher->employee->employee_code }}"
                                 width="120px" class="text-align: center; ">
                         </div>
                     @else
@@ -376,8 +376,8 @@
                     @endif
                     <p class="s7"
                         style="text-align: center; border-bottom: 1px solid black; display: inline-block; width: auto;">
-                        @if ($anggota_kelas->classSchool->teacher)
-                            {{ $anggota_kelas->classSchool->teacher->employee->fullname }}
+                        @if ($student->classSchool->teacher)
+                            {{ $student->classSchool->teacher->employee->fullname }}
                         @else
                             Guru not available
                         @endif
@@ -388,17 +388,17 @@
             <tr>
                 <td colspan="2" style="text-align: center; margin-top: 15px;">
                     <p class="s6" style="padding-top: 6pt; text-align: center;">Principal's Signature</p>
-                    @if (Storage::disk('public')->exists('schools/signature_principal/' . $sekolah->nip_principal . '.jpg'))
+                    @if (Storage::disk('public')->exists('schools/signature_principal/' . $school->nip_principal . '.jpg'))
                         <div>
-                            <img src="{{ public_path() . '/storage/schools/signature_principal/' . $sekolah->nip_principal . '.jpg' }}"
-                                alt="{{ $sekolah->nip_principal }}" width="120px" class="text-align: center; ">
+                            <img src="{{ public_path() . '/storage/schools/signature_principal/' . $school->nip_principal . '.jpg' }}"
+                                alt="{{ $school->nip_principal }}" width="120px" class="text-align: center; ">
                         </div>
                     @else
                         <p style="padding-top: 48pt;"></p>
                     @endif
                     <p class="s7"
                         style="text-align: center; border-bottom: 1px solid black; display: inline-block; width: auto;">
-                        {{ $sekolah->principal }}</p>
+                        {{ $school->principal }}</p>
                 </td>
             </tr>
         </table>

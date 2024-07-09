@@ -16,6 +16,7 @@ use Filament\Resources\Pages\ListRecords;
 use Filament\Forms\Components\CheckboxList;
 use App\Models\MemberClassSchool;
 use App\Filament\Resources\Teacher\GradePromotionResource;
+use Filament\Forms\Components\Hidden;
 
 class ListGradePromotions extends ListRecords
 {
@@ -23,6 +24,8 @@ class ListGradePromotions extends ListRecords
 
     protected function getHeaderActions(): array
     {
+        $lastGrade = ClassSchool::where('academic_year_id', Helper::getActiveAcademicYearId())->max('level_id');
+
         return [
             Action::make('Select Student')
                 ->form([
@@ -38,7 +41,7 @@ class ListGradePromotions extends ListRecords
                                 }
                                 return $query->with('subject')->whereHas('classSchool', function (Builder $query) {
                                     $query->where('academic_year_id', Helper::getActiveAcademicYearId());
-                                });;
+                                });
                             }
                         })
                         ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
@@ -46,6 +49,7 @@ class ListGradePromotions extends ListRecords
                         ->searchable()
                         ->preload()
                         ->label('Class School')
+                        ->reactive()
                         ->live(),
                     CheckboxList::make('member_class_school_id')
                         ->label('Students')
@@ -75,6 +79,25 @@ class ListGradePromotions extends ListRecords
                         ->searchable()
                         ->bulkToggleable()
                         ->columns(3),
+                    Hidden::make('decision')->default(function (Get $get) use ($lastGrade) {
+                        $classSchoolId = $get('class_school_id');
+
+                        if ($classSchoolId) {
+                            $classSchool = \App\Models\ClassSchool::find($classSchoolId); // Adjust the model namespace as needed
+
+                            if ($classSchool && $classSchool->level) {
+                                $currentLevelId = $classSchool->level_id;
+
+                                if ($currentLevelId != $lastGrade) {
+                                    return '1';
+                                } else {
+                                    return '3';
+                                }
+                            }
+                        }
+
+                        return '1';
+                    }),
                 ])
                 ->action(function (array $data): void {
                     $dataArray = [];
@@ -86,6 +109,7 @@ class ListGradePromotions extends ListRecords
                         for ($i = 0; $i < count($getMemberClassSchoolId); $i++) {
                             $dataArray = [
                                 'class_school_id' => $data['class_school_id'],
+                                'decision' => $data['decision'],
                                 'member_class_school_id' => $getMemberClassSchoolId[$i],
                             ];
 

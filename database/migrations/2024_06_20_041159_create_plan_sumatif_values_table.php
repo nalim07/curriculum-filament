@@ -20,7 +20,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('plan_sumatif_value_id')->constrained('plan_sumatif_values')->onDelete('cascade');
             $table->string('code');
-            $table->enum('technique', ['1', '2', '3']);
+            $table->enum('technique', ['1', '2']);
             $table->integer('weighting');
             $table->timestamps();
 

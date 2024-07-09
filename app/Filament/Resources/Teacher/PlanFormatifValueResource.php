@@ -35,6 +35,10 @@ class PlanFormatifValueResource extends Resource
 
     protected static ?string $slug = 'plan-formatif-value';
 
+    protected static ?string $navigationLabel = "Marking Schema for Learning";
+
+    protected static ?string $modelLabel = "Marking Schema for Learning";
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -73,12 +77,6 @@ class PlanFormatifValueResource extends Resource
                     $set('term_id', $termId);
                 })
                 ->rules(function ($get) {
-                    // $recordId = $get('learning_data_id'); // Assuming 'recordId' is available in the context
-                    // return [
-                    //     Rule::unique('plan_formatif_values', 'learning_data_id')->ignore($recordId)
-                    // ];
-
-                    // Assuming 'plan_formatif_value_id' is available in the context
                     $learningDataId = $get('learning_data_id');
                     $semesterId = $get('semester_id');
                     $termId = $get('term_id');
@@ -133,20 +131,25 @@ class PlanFormatifValueResource extends Resource
             Repeater::make('techniques')
                 ->relationship('techniques')
                 ->schema([
-                    TextInput::make('code')->required()->maxLength(255),
+                    TextInput::make('code')->required()->maxLength(255)
+                        ->default(function () {
+                            return 'F' . strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 4));
+                        })
+                        ->helperText('this code generated automatically')
+                        ->readonly(),
                     Select::make('technique')
                         ->options([
-                            '1' => 'Parktik',
-                            '2' => 'Projek',
-                            '3' => 'Produk',
-                            '4' => 'Teknik 1',
-                            '5' => 'Teknik 2',
+                            '1' => 'Quiz/Chapter Test ',
+                            '2' => 'Project',
+                            '3' => 'Portfolio',
+                            '4' => 'Classwork',
+                            '5' => 'End Semester',
                         ])
                         ->required(),
                     TextInput::make('weighting')->label('Minimum Criteria')->required()->numeric()->helperText('Enter a value between 0 and 100')->minValue(0)->maxValue(100),
                 ])
-                ->minItems(3)
-                ->maxItems(3)
+                ->minItems(5)
+                ->maxItems(5)
                 ->addActionLabel('Add Assessment Technique')
                 ->columns(3)
                 ->columnSpan('full'),

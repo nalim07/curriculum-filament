@@ -15,6 +15,7 @@ class StudentAchievementSeeder extends Seeder
     {
         StudentAchievement::create([
             'class_school_id' => 8,
+            'semester_id' => 1,
             'member_class_school_id' => 1,
             'name' => 'Test',
             'type_of_achievement' => 1,
@@ -24,6 +25,7 @@ class StudentAchievementSeeder extends Seeder
 
         StudentAchievement::create([
             'class_school_id' => 8,
+            'semester_id' => 1,
             'member_class_school_id' => 2,
             'name' => 'Test',
             'type_of_achievement' => 2,

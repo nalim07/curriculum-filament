@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-        /**
+    /**
      * Run the migrations.
      *
      * @return void
@@ -30,11 +30,11 @@ return new class extends Migration
             $table->timestamps();
 
             // Teknik Penilaian
-            // 1 = Parktik
-            // 2 = Projek
-            // 3 = Produk
-            // 4 = Teknik 1
-            // 5 = Teknik 2
+            // 1. quiz/chapter test 30%
+            // 2. project tetap 20&
+            // 3. portfolio 10%
+            // 4. classwork 10%
+            // 5. end semster 30%
         });
     }
 

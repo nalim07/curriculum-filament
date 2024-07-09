@@ -42,6 +42,21 @@ class PlanFormatifValueSeeder extends Seeder
             'weighting' => '70',
         ]);
 
+        PlanFormatifValueTechnique::create([
+            'plan_formatif_value_id' => 1,
+            'code' => '4',
+            'technique' => '4',
+            'weighting' => '70',
+        ]);
+
+        PlanFormatifValueTechnique::create([
+            'plan_formatif_value_id' => 1,
+            'code' => '5',
+            'technique' => '5',
+            'weighting' => '70',
+        ]);
+
+
         // index 2
         PlanFormatifValue::create([
             'learning_data_id' => 1,
@@ -68,6 +83,20 @@ class PlanFormatifValueSeeder extends Seeder
             'code' => '3',
             'technique' => '3',
             'weighting' => '75',
+        ]);
+
+        PlanFormatifValueTechnique::create([
+            'plan_formatif_value_id' => 2,
+            'code' => '4',
+            'technique' => '4',
+            'weighting' => '70',
+        ]);
+
+        PlanFormatifValueTechnique::create([
+            'plan_formatif_value_id' => 2,
+            'code' => '5',
+            'technique' => '5',
+            'weighting' => '70',
         ]);
 
         // subject2
@@ -98,6 +127,20 @@ class PlanFormatifValueSeeder extends Seeder
             'weighting' => '70',
         ]);
 
+        PlanFormatifValueTechnique::create([
+            'plan_formatif_value_id' => 3,
+            'code' => '4',
+            'technique' => '4',
+            'weighting' => '70',
+        ]);
+
+        PlanFormatifValueTechnique::create([
+            'plan_formatif_value_id' => 3,
+            'code' => '5',
+            'technique' => '5',
+            'weighting' => '70',
+        ]);
+
         // index 2
         PlanFormatifValue::create([
             'learning_data_id' => 2,
@@ -124,6 +167,20 @@ class PlanFormatifValueSeeder extends Seeder
             'code' => '3',
             'technique' => '3',
             'weighting' => '75',
+        ]);
+
+        PlanFormatifValueTechnique::create([
+            'plan_formatif_value_id' => 4,
+            'code' => '4',
+            'technique' => '4',
+            'weighting' => '70',
+        ]);
+
+        PlanFormatifValueTechnique::create([
+            'plan_formatif_value_id' => 4,
+            'code' => '5',
+            'technique' => '5',
+            'weighting' => '70',
         ]);
 
         ////semester 2
@@ -154,6 +211,20 @@ class PlanFormatifValueSeeder extends Seeder
             'weighting' => '70',
         ]);
 
+        PlanFormatifValueTechnique::create([
+            'plan_formatif_value_id' => 5,
+            'code' => '4',
+            'technique' => '4',
+            'weighting' => '70',
+        ]);
+
+        PlanFormatifValueTechnique::create([
+            'plan_formatif_value_id' => 5,
+            'code' => '5',
+            'technique' => '5',
+            'weighting' => '70',
+        ]);
+
         // index 2
         PlanFormatifValue::create([
             'learning_data_id' => 1,
@@ -180,6 +251,20 @@ class PlanFormatifValueSeeder extends Seeder
             'code' => '3',
             'technique' => '3',
             'weighting' => '75',
+        ]);
+
+        PlanFormatifValueTechnique::create([
+            'plan_formatif_value_id' => 6,
+            'code' => '4',
+            'technique' => '4',
+            'weighting' => '70',
+        ]);
+
+        PlanFormatifValueTechnique::create([
+            'plan_formatif_value_id' => 6,
+            'code' => '5',
+            'technique' => '5',
+            'weighting' => '70',
         ]);
 
         // subject2
@@ -210,6 +295,20 @@ class PlanFormatifValueSeeder extends Seeder
             'weighting' => '70',
         ]);
 
+        PlanFormatifValueTechnique::create([
+            'plan_formatif_value_id' => 7,
+            'code' => '4',
+            'technique' => '4',
+            'weighting' => '70',
+        ]);
+
+        PlanFormatifValueTechnique::create([
+            'plan_formatif_value_id' => 7,
+            'code' => '5',
+            'technique' => '5',
+            'weighting' => '70',
+        ]);
+
         // index 2
         PlanFormatifValue::create([
             'learning_data_id' => 2,
@@ -236,6 +335,20 @@ class PlanFormatifValueSeeder extends Seeder
             'code' => '3',
             'technique' => '3',
             'weighting' => '75',
+        ]);
+
+        PlanFormatifValueTechnique::create([
+            'plan_formatif_value_id' => 8,
+            'code' => '4',
+            'technique' => '4',
+            'weighting' => '70',
+        ]);
+
+        PlanFormatifValueTechnique::create([
+            'plan_formatif_value_id' => 8,
+            'code' => '5',
+            'technique' => '5',
+            'weighting' => '70',
         ]);
     }
 }
