@@ -76,7 +76,11 @@ class TotalTeacherChart extends ApexChartWidget
 
     private function getTeacherCountsByUnit(): array
     {
-        $units = EmployeeUnit::orderBy('id')->pluck('name')->toArray();
+        $units = EmployeeUnit::whereHas('employee', function ($query) {
+            $query->whereHas('teacher', function ($query) {
+                $query;
+            });
+        })->orderBy('id')->pluck('name')->toArray();
         $counts = [];
 
         foreach ($units as $unit) {
@@ -87,7 +91,6 @@ class TotalTeacherChart extends ApexChartWidget
             })->count();
             $counts[] = $count;
         }
-
         return ['units' => $units, 'counts' => $counts];
     }
 
