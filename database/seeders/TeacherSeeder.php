@@ -14,19 +14,19 @@ class TeacherSeeder extends Seeder
      */
     public function run(): void
     {
-        Teacher::create([
-            'employee_id' => 1,
-        ]);
-        Teacher::create([
-            'employee_id' => 2,
-        ]);
+        // Teacher::create([
+        //     'employee_id' => 1,
+        // ]);
+        // Teacher::create([
+        //     'employee_id' => 2,
+        // ]);
 
-        Teacher::create([
-            'employee_id' => 3,
-        ]);
+        // Teacher::create([
+        //     'employee_id' => 3,
+        // ]);
 
-        Teacher::create([
-            'employee_id' => 4,
-        ]);
+        // Teacher::create([
+        //     'employee_id' => 4,
+        // ]);
     }
 }

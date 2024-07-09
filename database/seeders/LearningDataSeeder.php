@@ -37,7 +37,7 @@ class LearningDataSeeder extends Seeder
         LearningData::create([
             'class_school_id' => 9,
             'subject_id' => 1,
-            'teacher_id' => 4,
+            'teacher_id' => 3,
             'status' => true
         ]);
     }
